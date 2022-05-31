@@ -23,6 +23,13 @@ const CreateVehicle = () => {
     <>
       <NavBar />
       <div className={styles.formConatiner}>
+        <div className="ownerContainer">
+
+        </div>
+        <div className="taxContainer">
+
+        </div>
+        
         <form onSubmit={handleSubmit}>
           <input
             name="nombres"
