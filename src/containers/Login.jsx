@@ -3,11 +3,12 @@ import styles from '../styles/Login.module.scss';
 import logo from '../../public/assets/images/main_logo_yellow.png';
 import axios from 'axios';
 import md5 from 'md5';
-const API = 'http://localhost:3000/api/login';
+const API = 'http://localhost:5000/api/login';
 
 const login = () => {
     const form = useRef(null);
 
+    
     const handleSubmit = (event) =>{
         event.preventDefault();
         const formData = new FormData(form.current);
@@ -18,6 +19,11 @@ const login = () => {
                 username: formData.get('usuario'),
                 password: formData.get('contrasena')
             }
+        }).then((response) =>{
+            console.log(response.statusText)
+            
+        }).catch((error) =>{
+            console.log(error.response.data.message)
         })
     }
     
@@ -26,8 +32,8 @@ const login = () => {
         <div className={styles.contenedor}>
         <div className={styles['left-panel']}>  
             <div className={styles['identidad-corp-container']}>
-                <img src={logo} alt="logo de la aplicacion" />
-                <h1><span>CHECK</span>CAR</h1>
+                <img src={logo} alt="logo de la aplicacion" /> <br></br><br></br>
+                <h1><span>CHECK</span>CAR</h1><br></br>
                 <h3>Transportes Taxi Ya S.A.</h3>
             </div>
         </div>

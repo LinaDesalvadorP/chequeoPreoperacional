@@ -8,6 +8,7 @@ import CreateVehicle from '../containers/CreateVehicle';
 import CreateAdmin from '../containers/CreateAdmin'
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
+import DailyCheck from '../containers/DailyCheck';
 
 
 export const App = () => {
@@ -20,6 +21,7 @@ export const App = () => {
                     <Route path='/validate-owner' element={<ValidateOwner />}/>
                     <Route path='/create-vehicle' element={<CreateVehicle />}/>
                     <Route path='/create-admin' element={<CreateAdmin />}/>
+                    <Route path='/daily-check' element={<DailyCheck />}/>
                     <Route path='*' element={<NotFound />}/>
                 </Routes>
             </Layout>
