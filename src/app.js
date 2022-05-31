@@ -6,7 +6,7 @@ const cors = require("cors");
 //const { authentication } = require("./middlewares/oauth/authentication");
 
 const app = express();
-require("./config/config.database");
+//require("./config/config.database");
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());

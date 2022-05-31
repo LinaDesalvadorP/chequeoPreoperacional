@@ -19,3 +19,15 @@ const verifyUserAndPassword = (userName, password) => {
     })
 }
 exports.verifyUserAndPassword = verifyUserAndPassword;
+
+
+const getRol = (userName) =>{
+    return new Promise(function (resolve, reject){
+        mysql.query("call  get_rol(?,@rol); select @rol as rol;", [userName], function (err, rows) {
+            if (err) return  reject(err);
+            rows[1].forEach(e => resolve(e.rol))
+        });
+    })
+}
+
+exports.getRol = getRol;
