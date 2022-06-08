@@ -1,6 +1,3 @@
-const answer = require('../entitys/answer.model')
-const Answer = answer.answer
-
 class Question {
     constructor(id, statement, section, type, answerOptions) {
         this.id = id
