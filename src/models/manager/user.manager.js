@@ -1,4 +1,6 @@
-const mysql = require('../config/config.database')
+const User = require('../entitys/user.model')
+const mysql = require('../../config/config.database')
+
 
 const exist = (userName) => {
     return new Promise(function (resolve, reject) {
@@ -29,5 +31,16 @@ const getRol = (userName) =>{
         });
     })
 }
-
 exports.getRol = getRol;
+
+const createUser = (idRol, username, password) => {
+    return new Promise(function (resolve, reject){
+        mysql.query("insert into user values (?,?,?)", [idRol, username, password], function (err, rows) {
+            if (err) return  reject(err);
+           resolve ('User created')
+        });
+    })
+}
+exports.createUser = createUser;
+
+

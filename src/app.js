@@ -21,6 +21,10 @@ app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
 
 
-app.use("/api", require("./routes/users.routes"));
+app.use("/api/user", require("./routes/users.routes"));
+app.use("/api/admin", require("./routes/admin.routes"));
+app.use("/api/owner", require("./routes/owner.routes"));
+app.use("/api/vehicle", require("./routes/vehicles.routes"));
+app.use("/api/test", require("./routes/test.routes"));
 
 module.exports = app;
