@@ -4,21 +4,28 @@ import TaxImage from '../../public/assets/images/taxi-frontal.png';
 import styles from '../styles/ValidateOwner.module.scss';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import Owner from '../model/entity/Owner'
+import ownerManager from '../model/manager/OwnerManager'
+
 const API = 'http://localhost:5000/api/owner/get/';
 const qs = require('qs');
 
-const ValidateOwner = () => {
 
+
+const ValidateOwner = () => {
     const form = useRef(null);
     const navigate = useNavigate();
+
 
     const sendOwnerId = (event) =>{
         event.preventDefault();
         const formData = new FormData(form.current);
-       axios.get(API + formData.get('CC'))
-           .then((response) =>{
-                console.log(response.data)
-           })
+        axios.get(API + formData.get('CC'))
+            .then((response) =>{
+                const  user = new Owner(response.data.cc, response.data.firstname, response.data.lastname)
+                ownerManager.setOwner(user)
+                navigate('/create-vehicle');
+            })
     }
 
     return (
