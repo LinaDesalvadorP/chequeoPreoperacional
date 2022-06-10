@@ -1,9 +1,26 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import NavBar from "../components/NavBar";
 import TaxImage from '../../public/assets/images/taxi-frontal.png';
 import styles from '../styles/ValidateOwner.module.scss';
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+const API = 'http://localhost:5000/api/owner/get/';
+const qs = require('qs');
 
 const ValidateOwner = () => {
+
+    const form = useRef(null);
+    const navigate = useNavigate();
+
+    const sendOwnerId = (event) =>{
+        event.preventDefault();
+        const formData = new FormData(form.current);
+       axios.get(API + formData.get('CC'))
+           .then((response) =>{
+                console.log(response.data)
+           })
+    }
+
     return (
         <>
             <NavBar />
@@ -17,15 +34,16 @@ const ValidateOwner = () => {
                     <div className={styles["tax-image-container"]}>
                         <img src= {TaxImage} alt="" />
                     </div>
+                    <form action="/" className={styles['form-container']} ref={form}>
+                        <div className={styles["input-container"]}>
+                            <input type="number" className={styles.input} name="CC" placeholder=" " id="" />
+                            <label htmlFor="" className={styles.label}>Cédula del propietario</label>
+                        </div>
 
-                    <div className={styles["input-container"]}>
-                        <input type="number" className={styles.input} name="Cédula del propietario" placeholder=" " id="" />
-                        <label htmlFor="" className={styles.label}>Cédula del propietario</label>
-                    </div>
-
-                    <div className={styles["submitBtn"]}>
-                        <input type="submit" value="Siguiente" />
-                    </div>
+                        <div className={styles["submitBtn"]}>
+                            <input type="submit" value="Siguiente" onClick={sendOwnerId} />
+                        </div>
+                    </form>
                 </div>
             </div>
         </>

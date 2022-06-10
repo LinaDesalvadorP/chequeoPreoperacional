@@ -4,7 +4,12 @@ import styles from "../styles/CreateAdmin.module.scss";
 import NavBar from "../components/NavBar";
 
 const CreateAdmin = () => {
-    const handleSubmit = (event) =>{}
+    const form = useRef(null);
+    const navigate = useNavigate();
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+        const formData = new FormData(form.current);
+    }
     return (
         <>
             <NavBar/>
@@ -17,18 +22,29 @@ const CreateAdmin = () => {
                         <h2>Datos personales</h2>
                         </div>
                         <div className={styles.contentSectionForm}>
-                        <div className={styles.inputContainer}>
-                            <input type="number" className={styles.input} name="cedula" placeholder=" " id="" />
-                            <label htmlFor="cedula" className={styles.label}>Cedula</label>
-                        </div>
-                        <div className={styles.inputContainer}>
-                            <input type="text" className={styles.input} name="nombres" placeholder=" " id="" />
-                            <label htmlFor="nombres" className={styles.label}>Nombres</label>
-                        </div>
-                        <div className={styles.inputContainer}>
-                            <input type="text" className={styles.input} name="apellidos" placeholder=" " id="" />
-                            <label htmlFor="apellidos" className={styles.label}>Apellidos</label>
-                        </div>
+                            <div className={styles.inputContainer}>
+                                <input 
+                                type="number" 
+                                className={styles.input} 
+                                name="cedula" 
+                                laceholder=" " 
+                                id=""/>
+                                <label htmlFor="cedula" className={styles.label}>Cedula</label>
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <input 
+                                type="text" 
+                                className={styles.input} 
+                                name="nombres" 
+                                placeholder=" " 
+                                id="" 
+                                />
+                                <label htmlFor="nombres" className={styles.label}>Nombres</label>
+                            </div>
+                            <div className={styles.inputContainer}>
+                                <input type="text" className={styles.input} name="apellidos" placeholder=" " id="" />
+                                <label htmlFor="apellidos" className={styles.label}>Apellidos</label>
+                            </div>
                         </div>
                     </div> 
 
@@ -51,7 +67,7 @@ const CreateAdmin = () => {
                     <br></br>
 
                     <div className={styles.submitBtn}>
-                        <button className={styles.btnSend} type="submit"> Guardar </button>
+                        <button onClick={handleSubmit} className={styles.btnSend} type="submit"> Guardar </button>
                     </div>
                 </form> 
             </div> 
