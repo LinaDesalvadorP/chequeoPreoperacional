@@ -3,9 +3,11 @@ import styles from '../styles/Login.module.scss';
 import logo from '../../public/assets/images/main_logo_yellow.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const API = 'http://localhost:5000/api/login';
+const API = 'http://localhost:5000/api/user/login';
+
 
 const login = () => {
+
     const form = useRef(null);
     const navigate = useNavigate();
     const handleSubmit = (event) =>{
@@ -20,13 +22,16 @@ const login = () => {
             }
         }).then((response) =>{
             localStorage.setItem('auth', "yes")
-            navigate('/validate-owner');
-            console.log(response.statusText)
+            console.log(response.data.rol)
+            if (response.data.rol === 'administator') {
+                navigate('/validate-owner');
+            }else if (response.data.rol === 'driver'){
+                navigate('/daily-check');
+            }
         }).catch((error) =>{
             console.log(error.response.data.message)
         })
     }
-    
 
     return (
         <div className={styles.contenedor}>
@@ -44,7 +49,7 @@ const login = () => {
                     <h3>Por favor ingrese sus credenciales de acceso para continuar.</h3>
                 </div>
                 
-                <form action="/" className={styles.form} onSubmit={handleSubmit}  ref={form}>
+                <form action="/" className={styles.form} ref={form}>
                     <div className={styles['input-container']}>
                         <input type="text" className={styles.input} name="usuario" placeholder=" " id="" />
                         <label htmlFor="usuario" className={styles.label}>Usuario</label>
