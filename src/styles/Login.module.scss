@@ -4,7 +4,7 @@ h1{
     font-weight: bold;
 }
 h3{
-    color: var(--dark-gray);
+    color: var(--dark-gray) !important;
 }
 .contenedor{
     display: grid; 

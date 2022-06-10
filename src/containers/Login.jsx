@@ -2,7 +2,6 @@ import React, {useRef } from 'react';
 import styles from '../styles/Login.module.scss';
 import logo from '../../public/assets/images/main_logo_yellow.png';
 import axios from 'axios';
-import md5 from 'md5';
 import { useNavigate } from 'react-router-dom';
 const API = 'http://localhost:5000/api/login';
 

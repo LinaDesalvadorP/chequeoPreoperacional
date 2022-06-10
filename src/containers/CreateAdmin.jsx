@@ -4,18 +4,12 @@ import styles from "../styles/CreateAdmin.module.scss";
 import NavBar from "../components/NavBar";
 
 const CreateAdmin = () => {
-    const form = useRef(null);
-    const navigate = useNavigate();
-    const handleSubmit = (event) =>{
-        event.preventDefault();
-        const formData = new FormData(form.current);
-    }
     return (
         <>
             <NavBar/>
             <div className={styles.formContainer}>
                 <h1>Registrar administrador</h1>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <hr></hr>
                     <div className={styles.sectionForm}>
                         <div className={styles.titleSectionForm}>
@@ -67,7 +61,7 @@ const CreateAdmin = () => {
                     <br></br>
 
                     <div className={styles.submitBtn}>
-                        <button onClick={handleSubmit} className={styles.btnSend} type="submit"> Guardar </button>
+                        <button className={styles.btnSend} type="submit"> Guardar </button>
                     </div>
                 </form> 
             </div> 
