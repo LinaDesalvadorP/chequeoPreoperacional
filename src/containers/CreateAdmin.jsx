@@ -69,10 +69,6 @@ const CreateAdmin = () => {
                         </div>
                         <div className={styles.contentSectionForm}>
                         <div className={styles.inputContainer}>
-                            <input type="text" className={styles.input} name="usuario" placeholder=" " id="" />
-                            <label htmlFor="usuario" className={styles.label}>Usuario</label>
-                        </div>
-                        <div className={styles.inputContainer}>
                             <input type="text" className={styles.input} name="contrasena" placeholder=" " id="" />
                             <label htmlFor="contrasena" className={styles.label}>Contrasena</label>
                         </div>
