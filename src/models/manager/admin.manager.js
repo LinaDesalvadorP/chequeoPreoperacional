@@ -16,7 +16,7 @@ exports.get = get;
 const add = (username, firstname, lastname) => {
     return new Promise(function (resolve, reject) {
         mysql.query("INSERT INTO administrator VALUES (?,?,?);", [username, firstname, lastname], function (err, rows) {
-            if (err)  return reject('Admin already exist');
+            if (err)  return reject(err);
             resolve('Admin added')
         });
     })

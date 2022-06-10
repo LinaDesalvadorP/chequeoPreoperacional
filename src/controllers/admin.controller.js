@@ -19,7 +19,7 @@ const add = async (req, res) => {
         await admins.add(username, firstname, lastname)
         return  res.status(200).json({message: 'Admin added'});
     }catch (e){
-        return  res.status(402).json({error: e});
+        return  res.status(401).json({error: e});
     }
 };
 module.exports.add = [add];

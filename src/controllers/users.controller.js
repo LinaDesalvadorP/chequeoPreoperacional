@@ -2,7 +2,6 @@ const users = require('../models/manager/user.manager');
 
 const login = async (req, res) => {
     const { username, password } = req.body;
-
     const exist = await users.exist(username);
     if (!exist) return res.status(404).send({error:"User doesn't exist"});
 
