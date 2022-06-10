@@ -1,15 +1,35 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styles from "../styles/CreateAdmin.module.scss";
 // import styles from "../styles/CreateAdmnin.module.scss";
 import NavBar from "../components/NavBar";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
+const verifyUserRoute = 'http://localhost:5000/api/user/add';
+const addAdmin = 'http://localhost:5000/api/admin/add';
 
 const CreateAdmin = () => {
+    const form = useRef(null);
+    const navigate = useNavigate();
+
+    const createAdmin = (event) => {
+
+        event.preventDefault();
+        const formData = new FormData(form.current);
+        const dataUser = {idRol: 1, username: formData.get('cedula'), password: formData.get('contrasena')}
+        const dataAdmin = { username: formData.get('cedula'), firstname: formData.get('nombres'), lastname: formData.get('apellidos') }
+        axios.post(verifyUserRoute, dataUser)
+            .then((response) =>{
+                axios.post(addAdmin, dataAdmin).then((response) =>{
+                    navigate('/validate-owner');
+                })
+            })
+    }
     return (
         <>
             <NavBar/>
             <div className={styles.formContainer}>
                 <h1>Registrar administrador</h1>
-                <form>
+                <form onSubmit={createAdmin} ref={form}>
                     <hr></hr>
                     <div className={styles.sectionForm}>
                         <div className={styles.titleSectionForm}>
