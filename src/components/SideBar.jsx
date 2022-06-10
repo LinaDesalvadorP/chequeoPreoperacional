@@ -4,7 +4,7 @@ import * as MdIcons from "react-icons/md";
 
 export const SideBar = [
     {
-        title: 'Crear Administrador',
+        title: 'Registrar Administrador',
         path: '/create-admin',
         icon: <FaIcons.FaUserPlus />,
         cName: 'nav-text'

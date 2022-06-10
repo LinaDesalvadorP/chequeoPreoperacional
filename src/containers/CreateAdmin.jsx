@@ -21,7 +21,7 @@ const CreateAdmin = () => {
                                 type="number" 
                                 className={styles.input} 
                                 name="cedula" 
-                                laceholder=" " 
+                                placeholder=" "
                                 id=""/>
                                 <label htmlFor="cedula" className={styles.label}>Cedula</label>
                             </div>

@@ -10,6 +10,13 @@
 .formContainer h1{
     margin: 4vh 0;
 }
+.sectionForm{
+    display: grid; 
+    grid-template-columns: 0.8fr 0.2fr; 
+    grid-template-rows: 1fr; 
+    grid-template-areas: 
+        "titleSectionForm contentSectionForm"; 
+}
 .inputContainer{
     position: relative;
     margin-bottom: 2vh;
