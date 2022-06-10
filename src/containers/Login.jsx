@@ -3,12 +3,12 @@ import styles from '../styles/Login.module.scss';
 import logo from '../../public/assets/images/main_logo_yellow.png';
 import axios from 'axios';
 import md5 from 'md5';
+import { useNavigate } from 'react-router-dom';
 const API = 'http://localhost:5000/api/login';
 
 const login = () => {
     const form = useRef(null);
-
-    
+    const navigate = useNavigate();
     const handleSubmit = (event) =>{
         event.preventDefault();
         const formData = new FormData(form.current);
@@ -20,8 +20,9 @@ const login = () => {
                 password: formData.get('contrasena')
             }
         }).then((response) =>{
+            localStorage.setItem('auth', "yes")
+            navigate('/validate-owner');
             console.log(response.statusText)
-            
         }).catch((error) =>{
             console.log(error.response.data.message)
         })

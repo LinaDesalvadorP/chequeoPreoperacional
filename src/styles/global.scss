@@ -4,17 +4,17 @@ $secondary-color: #0077B6;
 $font-secondary-color:#A1A4A9;
 $light-gray: #F2F2F2;
 $font-primary-color: #000000;
-
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;500;600&display=swap');
 *{
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	font-family: 'Barlow', sans-serif;
 }
 
 body {
 	background-color: $light-base-color;
 	color: $font-primary-color;
-	font-family: 'Barlow', sans-serif;
     margin: 0;
     padding: 0;
 }

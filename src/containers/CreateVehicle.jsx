@@ -8,9 +8,9 @@ const CreateVehicle = () => {
     <>
       <NavBar />
       <div className={styles.formContainer}>
-        <h1>Registrar taxi</h1>
+        <h1>Registrar taxi</h1><br />
         <form onSubmit={handleSubmit}>
-          <hr></hr>
+          <hr></hr><br />
           <div className={styles.sectionForm}>
             <div className={styles.titleSectionForm}>
               <h2>Propietario</h2>
@@ -30,7 +30,7 @@ const CreateVehicle = () => {
               </div>
             </div>
           </div>
-          <hr></hr>
+          <br /><hr></hr><br />
           <div className={styles.sectionForm}>
             <div className={styles.titleSectionForm}>
               <h2>Taxi</h2>
@@ -54,7 +54,7 @@ const CreateVehicle = () => {
               </div>
             </div>
           </div>
-          <hr></hr>
+          <br /><hr></hr><br />
           <div className={styles.sectionForm}>
             <div className={styles.titleSectionForm}>
               <h2>Credenciales</h2>
