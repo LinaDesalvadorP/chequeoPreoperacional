@@ -44,7 +44,7 @@ const login = () => {
                     <h3>Por favor ingrese sus credenciales de acceso para continuar.</h3>
                 </div>
                 
-                <form action="/" className={styles.form} ref={form}>
+                <form action="/" className={styles.form} onSubmit={handleSubmit}  ref={form}>
                     <div className={styles['input-container']}>
                         <input type="text" className={styles.input} name="usuario" placeholder=" " id="" />
                         <label htmlFor="usuario" className={styles.label}>Usuario</label>

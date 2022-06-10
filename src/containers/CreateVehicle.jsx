@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, {useRef, useState} from 'react';
 import styles from "../styles/CreateVehicle.module.scss";
 import NavBar from "../components/NavBar";
-import { useForm } from 'react-hook-form';
+import ownerManager from '../model/manager/OwnerManager'
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import Owner from "../model/entity/Owner";
+const verifyUserRoute = 'http://localhost:5000/api/user/add';
+const addVehicleRoute = 'http://localhost:5000/api/vehicle/add';
 
 const CreateVehicle = () => {
-  const {register, handleSubmit} = useForm();
+
+    const form= useRef(null);
+    const navigate = useNavigate();
+
+
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+        const formData = new FormData(form.current);
+        const dataUser = {idRol: 2, username: formData.get('placa'), password: formData.get('contrasena')}
+        const dataCar = {licensePlate: formData.get('placa'), cc: formData.get('cedula'), movil: formData.get('movil'), model: formData.get('modelo'), brand: formData.get('marca')}
+        axios.post(verifyUserRoute, dataUser)
+            .then((response) =>{
+                axios.post(addVehicleRoute, dataCar).then((res) =>{
+                    return  navigate('/validate-owner');
+                })
+            })
+    }
   return (
     <>
       <NavBar />
       <div className={styles.formContainer}>
         <h1>Registrar taxi</h1><br />
-        <form onSubmit={handleSubmit((data)=>{
-          console.log(data)
-        })}>
+        <form onSubmit={handleSubmit}  ref={form}>
           <hr></hr><br />
           <div className={styles.sectionForm}>
             <div className={styles.titleSectionForm}>
@@ -20,15 +39,15 @@ const CreateVehicle = () => {
             </div>
             <div className={styles.contentSectionForm}>
               <div className={styles.inputContainer}>
-                <input type="number" className={styles.input} {...register("cedula")} placeholder=" " id="" /> 
+                <input type="number" className={styles.input} {...register("cedula")} placeholder=" " id="" i defaultValue={ownerManager.owner.cc} />
                 <label htmlFor="cedula" className={styles.label}>Cedula</label>
               </div>
               <div className={styles.inputContainer}>
-                  <input type="text" className={styles.input} {...register("nombres")} placeholder=" " id="" />
+                  <input type="text" className={styles.input} {...register("nombres")} placeholder=" " id="" defaultValue={ownerManager.owner.firstname} />
                   <label htmlFor="nombres" className={styles.label}>Nombres</label>
               </div>
               <div className={styles.inputContainer}>
-                  <input type="text" className={styles.input} {...register("apellidos")} placeholder=" " id="" />
+                  <input type="text" className={styles.input} {...register("apellidos")} placeholder=" " id="" defaultValue={ownerManager.owner.lastname}/>
                   <label htmlFor="apellidos" className={styles.label}>Apellidos</label>
               </div>
             </div>
