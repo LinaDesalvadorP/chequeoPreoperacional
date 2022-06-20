@@ -39,15 +39,15 @@ const CreateVehicle = () => {
             </div>
             <div className={styles.contentSectionForm}>
                 <div className={styles.inputContainer}>
-                    <input type="number" className={styles.input} name="cedula" placeholder=" " id="" defaultValue={ownerManager.owner.cc}/>
+                    <input type="number" className={styles.input} disabled='true' name="cedula" placeholder=" " id="" defaultValue={ownerManager.owner.cc}/>
                     <label htmlFor="cedula" className={styles.label}>Cedula</label>
                 </div>
                 <div className={styles.inputContainer}>
-                    <input type="text" className={styles.input} name="nombres" placeholder=" " id="" defaultValue={ownerManager.owner.firstname}/>
+                    <input type="text" className={styles.input} disabled='true' name="nombres" placeholder=" " id="" defaultValue={ownerManager.owner.firstname}/>
                     <label htmlFor="nombres" className={styles.label}>Nombres</label>
                 </div>
                 <div className={styles.inputContainer}>
-                    <input type="text" className={styles.input} name="apellidos" placeholder=" " id=""  defaultValue={ownerManager.owner.lastname} />
+                    <input type="text" className={styles.input} disabled='true' name="apellidos" placeholder=" " id=""  defaultValue={ownerManager.owner.lastname} />
                     <label htmlFor="apellidos" className={styles.label}>Apellidos</label>
                 </div>
             </div>

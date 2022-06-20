@@ -2,7 +2,7 @@ import React from "react";
 import autoBind from "react-autobind";
 import "antd/dist/antd.css";
 import { Table, Modal } from "antd";
-import AccordionComp from './../components/AccordionComp';
+// import AccordionComp from './../components/AccordionComp';
 import styles from "../styles/ChecksTable.module.scss";
 
 const columns = [
@@ -114,7 +114,7 @@ class ChecksTable extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <AccordionComp/>
+          {/* <AccordionComp/> */}
         </Modal>
       </div>
     );
