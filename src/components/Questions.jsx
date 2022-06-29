@@ -9,7 +9,7 @@ export const Questions = [
               "id": 14,
               "statement": "Ingrese el kilometraje actual de su vehículo",
               "section": "Seguridad",
-              "type": "N"
+              "type": "N",
           },
           {
               "id": 18,
@@ -24,14 +24,17 @@ export const Questions = [
                   {
                       "id": 2,
                       "statement": "no"
-                  }
-              ]
+                  },
+                  {
+                    "id": 3,
+                    "statement": "tal vez"
+                }]
           },
           {
               "id": 19,
               "statement": "¿Tiene alguna anotación? Comentela:",
               "section": "Seguridad",
-              "type": "O"
+              "type": "O",
           }
       ]
   },
@@ -43,19 +46,19 @@ export const Questions = [
               "id": 15,
               "statement": "Revise el nivel de aceite de su motor y desplace el indicador representando la medida de la bayoneta.",
               "section": "Fluidos",
-              "type": "S"
+              "type": "S",
           },
           {
               "id": 16,
               "statement": "Revise el nivel de agua del motor y desplace el indicador representando la medida.",
               "section": "Fluidos",
-              "type": "S"
+              "type": "S",
           },
           {
               "id": 17,
               "statement": "Revise el nivel de líquido de frenos y desplace el indicador representando la medida.",
               "section": "Fluidos",
-              "type": "S"
+              "type": "S",
           }
       ]
   }
