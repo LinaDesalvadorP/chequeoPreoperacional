@@ -2,16 +2,18 @@ const mysql = require('../../config/config.database')
 const section = require('../entitys/section.model')
 const Section = section.section
 
-const getSectionsByFrecuency = (frecuecy) => {
+
+const getTodaySections = () =>{
     let sections = []
     return new Promise(function (resolve, reject) {
-        mysql.query("select DISTINCT(s.name), s.image_path as img from section s inner join question q on q.id_section = s.id where frecuency =  ?;", [frecuecy],function (err, result) {
+        mysql.query("SELECT name, image_path as imgPath FROM today_sections",function (err, result) {
             if (err)  return reject(err);
             result.forEach(e=> {
-                sections.push(new Section(e.name, e.img))
+                sections.push(new Section(e.name, e.imgPath))
             })
             resolve(sections)
         });
     })
 }
-exports.getSectionsByFrecuency = getSectionsByFrecuency;
+
+exports.getTodaySections = getTodaySections;

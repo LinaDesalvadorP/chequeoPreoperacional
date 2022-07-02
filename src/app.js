@@ -25,6 +25,6 @@ app.use("/api/user", require("./routes/users.routes"));
 app.use("/api/admin", require("./routes/admin.routes"));
 app.use("/api/owner", require("./routes/owner.routes"));
 app.use("/api/vehicle", require("./routes/vehicles.routes"));
-app.use("/api/test", require("./routes/test.routes"));
+app.use("/api/quiz", require("./routes/quiz.routes"));
 
 module.exports = app;

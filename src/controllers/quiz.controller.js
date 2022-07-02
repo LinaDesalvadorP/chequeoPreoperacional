@@ -1,10 +1,9 @@
-
 const questions = require('../models/manager/question.manager')
 const sections = require('../models/manager/section.manager')
 
-const getUnsolvedTest = async (req, res) => {
-   const  unsolvedQuestions  = await questions.getUnsolvedQuestions(1)
-   const sectionsTest = await sections.getSectionsByFrecuency(1)
+const getUnsolvedQuiz = async (req, res) => {
+   const  unsolvedQuestions  = await questions.getTodayQuestions()
+   const sectionsTest = await sections.getTodaySections()
 
    for(let i = 0; i< unsolvedQuestions.length; i++){
       if (unsolvedQuestions[i].type === 'MA' || unsolvedQuestions[i].type === 'SA') {
@@ -25,4 +24,4 @@ const getUnsolvedTest = async (req, res) => {
    res.status(200).json(sectionsTest)
 }
 
-module.exports.getUnsolvedTest = [getUnsolvedTest];
+module.exports.getUnsolvedQuiz = [getUnsolvedQuiz];
