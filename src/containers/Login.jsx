@@ -22,6 +22,7 @@ const login = () => {
             }
         }).then((response) =>{
             localStorage.setItem('auth', "yes")
+            localStorage.setItem("user", formData.get('usuario'));
             console.log(response.data.rol)
             if (response.data.rol === 'administator') {
                 navigate('/validate-owner');
