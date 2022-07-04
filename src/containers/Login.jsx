@@ -7,7 +7,9 @@ const API = 'http://localhost:5000/api/user/login';
 
 
 const login = () => {
-
+    localStorage.setItem('auth', "no")
+    localStorage.setItem("user", "null")
+    
     const form = useRef(null);
     const navigate = useNavigate();
     const handleSubmit = (event) =>{
@@ -30,7 +32,7 @@ const login = () => {
                 navigate('/daily-check');
             }
         }).catch((error) =>{
-            console.log(error.response.data.message)
+            console.log("f: " +error.response.data.message)
         })
     }
 

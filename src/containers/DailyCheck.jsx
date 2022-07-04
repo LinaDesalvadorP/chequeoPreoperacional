@@ -2,8 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../styles/DailyCheck.module.scss";
+import moment from "moment";
+import {useNavigate} from "react-router-dom";
+import axios from 'axios';
+import Login from './../containers/Login';
 import logo from "../../public/assets/images/main_logo_yellow.png";
+
 const API = "http://localhost:5000/api/quiz/get/today-quiz";
+const SAVE_CHECK_API = "http://localhost:5000/api/quiz/save";
 
 const DailyCheck = () => {
   /*
@@ -124,6 +130,8 @@ const DailyCheck = () => {
    * Obtiene las respuestas del fomulario
    */
   const form = useRef(null);
+  
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(form.current);
@@ -153,7 +161,17 @@ const DailyCheck = () => {
     chequeoResuelto.push(localStorage.getItem("user"));
     chequeoResuelto.push(respuestas);
     console.log(chequeoResuelto);
+
+    axios.post(SAVE_CHECK_API, chequeoResuelto).then((response) =>{
+      navigate('/successful-registration');
+    })
   };
+
+  const logout = (event) => {
+    localStorage.setItem("auth", "no")
+    localStorage.setItem("user", "null")
+    navigate('/login');
+  }
 
   /*
    *   Carga de datos desde el backend
@@ -169,22 +187,32 @@ const DailyCheck = () => {
     fetchQuestion();
   }, [setQuestions]);
 
-  return (
+  /*
+   * Formulario del chequeo
+   */
+  const renderChequeo = () =>{
+    return (
     <>
       <div className={styles.header}>
-        <div className={styles["identidad-corp-container"]}>
-          <img src={logo} alt="logo de la aplicacion" /> <br></br>
-          <h1>
-            <span>CHECK</span>CAR
-          </h1>
-          <br></br>
-        </div>
-      </div>
-      <div className="row py-4 title text-center">
-        <span className="fs-2 fw-bold"> Móvil 351</span>
+          <div className={styles["identidad-corp-container"]}>
+              <img src={logo} alt="logo de la aplicacion" /> <br></br>
+              <h1>
+                  <span>CHECK</span>CAR
+              </h1>
+              <br></br>
+          </div>
+          <div className={styles.logout}>
+              <button className='btn btn-danger' onClick={logout}>Cerrar sesión</button>
+          </div>
       </div>
 
+
       <div className="row m-1 justify-content-center">
+        <div className="row py-4 title text-center">
+          <span className="fs-2 fw-bold"> Chequeo preoperacional</span>
+          <small>{moment().format("DD-MM-YYYY hh:mm:ss")}</small>
+        </div>
+
         <div className="col-lg-8">
           <form action="/" ref={form}>
             {questions?.map((item, index) => (
@@ -224,6 +252,17 @@ const DailyCheck = () => {
           <button onClick={handleSubmit}>Guardar</button>
         </div>
       </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      { localStorage.getItem("auth") == "yes"
+        ? renderChequeo()
+        : <Login />
+      }
+      
     </>
   );
 };

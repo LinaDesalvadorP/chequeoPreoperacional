@@ -4,7 +4,6 @@ import NavBar from "../components/NavBar";
 import ownerManager from '../model/manager/OwnerManager'
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import Owner from "../model/entity/Owner";
 const verifyUserRoute = 'http://localhost:5000/api/user/add';
 const addVehicleRoute = 'http://localhost:5000/api/vehicle/add';
 

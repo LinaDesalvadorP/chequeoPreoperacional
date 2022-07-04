@@ -1,0 +1,66 @@
+@import "vars";
+
+.header {
+  background-color: var(--oxford-blue);
+  height: 100px;
+  width: 100vw;
+  padding: 10px;
+  display: grid; 
+  grid-auto-columns: 1fr; 
+  grid-template-columns: 0.5fr 0.5fr; 
+  grid-template-rows: 1fr; 
+  grid-template-areas: 
+    "identidad-corp-container logout"; 
+}
+
+.identidad-corp-container {
+  grid-area: identidad-corp-container;
+  display: flex;
+  place-items: flex-end;
+  margin-left: 20px;
+}
+.identidad-corp-container img {
+  width: 80px;
+}
+.identidad-corp-container h1 span {
+  background: var(--sky-blue);
+  border-radius: 1vh;
+  padding: 2px 8px;
+  margin: 0 8px;
+}
+
+.identidad-corp-container h1 {
+  color: var(--white);
+}
+
+.logout{
+  grid-area: logout;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+    text-align: center;
+}
+.containerCheckImage {
+  width: 30vh;
+  height: 30vh;
+  border-radius: 50%;
+  background-color: var(--sky-blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3vh;
+}
+
+.containerCheckImage img {
+  width: 20vh;
+  height: 20vh;
+}

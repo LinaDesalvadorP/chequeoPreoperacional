@@ -10,6 +10,7 @@ import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import DailyCheck from '../containers/DailyCheck';
 import ChecksListAdmin from './../containers/ChecksListAdmin';
+import SuccessfulRegistration from './../containers/SuccessfulRegistration';
 
 
 export const App = () => {
@@ -24,6 +25,7 @@ export const App = () => {
                     <Route path='/create-admin' element={<CreateAdmin />}/>
                     <Route path='/daily-check' element={<DailyCheck />}/>
                     <Route path='/checks-list' element={<ChecksListAdmin />}/>
+                    <Route path='/successful-registration' element={<SuccessfulRegistration/>}/>
                     <Route path='*' element={<NotFound />}/>
                 </Routes>
             </Layout>
