@@ -19,8 +19,15 @@ connection.connect(function(err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
-    console.log('connected');
+    console.log('Connected to database');
 });
+
+setInterval(function (){
+    connection.query('SET GLOBAL connect_timeout=86400')
+    connection.query('SET GLOBAL interactive_timeout=86400')
+    connection.query('SET GLOBAL wait_timeout=86400')
+}, 86400000)
+
 
 module.exports = connection;
 
