@@ -146,12 +146,12 @@ const DailyCheck = () => {
             }
           });
           respuestas.push({
-            "idQuestion ": itemQuestion.id,
+            "idQuestion": itemQuestion.id,
             respuesta: respuestasSeleccionadas,
           });
         } else {
           respuestas.push({
-            "idQuestion ": itemQuestion.id,
+            "idQuestion": itemQuestion.id,
             respuesta: formData.get(itemQuestion.id),
           });
         }
