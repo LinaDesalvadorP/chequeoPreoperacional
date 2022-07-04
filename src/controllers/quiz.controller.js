@@ -4,6 +4,7 @@ const quiz = require('../models/manager/quiz.manager')
 const answers = require('../models/manager/answer.manager')
 
 const getTodayQuiz = async (req, res) => {
+
    const  unsolvedQuestions  = await questions.getTodayQuestions()
    const sectionsTest = await sections.getTodaySections()
 
@@ -37,7 +38,6 @@ const saveQuiz = async (req, res) => {
            answer.respuesta = await answers.saveNewOpenAnswer(answer.respuesta)
       }
 
-      console.log(await questions.getQuestionType(answer.idQuestion))
 
       switch (await questions.getQuestionType(answer.idQuestion)){
          case 'MA':
