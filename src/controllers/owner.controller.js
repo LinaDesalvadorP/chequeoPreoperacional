@@ -2,7 +2,6 @@ const owners = require('../models/manager/owner.manager');
 
 const getOwner = async(req, res) =>{
     const  cc  = req.params.cc;
-    console.log(cc)
     try {
         const owner = await owners.get(cc)
         return res.status(200).json(owner)
