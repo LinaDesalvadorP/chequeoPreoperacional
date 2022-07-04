@@ -16,7 +16,7 @@ const CreateVehicle = () => {
     const handleSubmit = (event) =>{
         event.preventDefault();
         const formData = new FormData(form.current);
-        const dataUser = {idRol: 2, username: formData.get('placa'), password: formData.get('contrasena')}
+        const dataUser = {idRol: 14, username: formData.get('placa'), password: formData.get('contrasena')}
         const dataCar = {licensePlate: formData.get('placa'), cc: formData.get('cedula'), movil: formData.get('movil'), model: formData.get('modelo'), brand: formData.get('marca')}
         axios.post(verifyUserRoute, dataUser)
             .then((response) =>{

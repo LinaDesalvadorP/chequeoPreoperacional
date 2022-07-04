@@ -15,7 +15,7 @@ const CreateAdmin = () => {
 
         event.preventDefault();
         const formData = new FormData(form.current);
-        const dataUser = {idRol: 1, username: formData.get('cedula'), password: formData.get('contrasena')}
+        const dataUser = {idRol: 4, username: formData.get('cedula'), password: formData.get('contrasena')}
         const dataAdmin = { username: formData.get('cedula'), firstname: formData.get('nombres'), lastname: formData.get('apellidos') }
         axios.post(verifyUserRoute, dataUser)
             .then((response) =>{

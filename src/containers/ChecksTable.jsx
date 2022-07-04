@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import autoBind from "react-autobind";
 import "antd/dist/antd.css";
 import { Table, Modal } from "antd";
 // import AccordionComp from './../components/AccordionComp';
 import styles from "../styles/ChecksTable.module.scss";
+
+const GET_QUIZ_LIST_API = "http://localhost:5000/api/quiz/get/quiz-list";
 
 const columns = [
   {
@@ -28,6 +30,21 @@ const columns = [
 
   }
 ];
+
+/*
+   *   Carga de datos desde el backend
+   */
+// const [quizList, setQuizList] = useState([]);
+// useEffect(() => {
+//   async function fetchQuizList() {
+//     const response = await fetch(GET_QUIZ_LIST_API);
+//     const json = await response.json();
+//     console.log("**"+JSON.stringify(json));
+//     setQuizList(json);
+//   }
+//   fetchQuizList();
+// }, [setQuizList]);
+
 
 const data = [
   {
@@ -89,7 +106,21 @@ class ChecksTable extends React.Component {
     const { selectedRowKey } = this.state;
     console.log(selectedRowKey, typeof selectedRowKey);
 
+    // const [quizList, setQuizList] = useState([]);
+    // useEffect(() => {
+    // async function fetchQuizList() {
+    //   const response = await fetch(GET_QUIZ_LIST_API);
+    //   console.log("4567" + response);
+    //   const json = await response.json();
+    //   console.log("**"+JSON.stringify(json));
+    //   setQuizList(json);
+    // }
+    // fetchQuizList();
+    // }, [setQuizList]);
+
     return (
+
+
       <div className={styles.holder}>
         <Table 
           columns={columns}
@@ -114,6 +145,7 @@ class ChecksTable extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
+          <h1>Respuestas</h1>
           {/* <AccordionComp/> */}
         </Modal>
       </div>

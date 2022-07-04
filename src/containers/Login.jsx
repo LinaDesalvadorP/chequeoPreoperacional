@@ -32,7 +32,7 @@ const login = () => {
                 navigate('/daily-check');
             }
         }).catch((error) =>{
-            console.log("f: " +error.response.data.message)
+            console.log(error.response.data.message)
         })
     }
 
