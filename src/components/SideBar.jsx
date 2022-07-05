@@ -20,6 +20,12 @@ export const SideBar = [
         path: '/checks-list',
         icon: <FaIcons.FaRegListAlt />,
         cName: 'nav-text'
+    },
+    {
+        title: 'Cerrar sesión',
+        path: '/login',
+        icon: <FaIcons.FaSignOutAlt />,
+        cName: 'nav-text'
     }
 ]
 

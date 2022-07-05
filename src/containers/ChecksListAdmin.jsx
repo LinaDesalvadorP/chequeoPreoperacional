@@ -5,7 +5,7 @@ import checkImg from '../../public/assets/images/cheque.png';
 import { ChecksListData } from '../components/ChecksListData'
 import ChecksTable from './ChecksTable';
 
-const API = 'http://api';
+// const API = 'http://api';
 
 const ChecksList = () => {
     // const [checks, setChecks] = useState([]);
