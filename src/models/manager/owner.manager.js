@@ -34,3 +34,14 @@ const getAll = () => {
     })
 }
 exports.getAll = getAll;
+
+const modify = (cc, firstname, lastname) => {
+    return new Promise(function (resolve, reject) {
+        mysql.query("UPDATE owner SET first_name = ?, last_name = ? WHERE cedula = ?",[firstname, lastname, cc], function (err, rows) {
+            if (err)  return reject(err);
+            resolve('Admin modified')
+        });
+    })
+}
+exports.modify = modify;
+

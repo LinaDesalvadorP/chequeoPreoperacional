@@ -1,6 +1,6 @@
 const owners = require('../models/manager/owner.manager');
 
-/*
+
 const getOwner = async(req, res) =>{
     const  cc  = req.params.cc;
     try {
@@ -11,8 +11,6 @@ const getOwner = async(req, res) =>{
     }
 }
 module.exports.getOwner = [getOwner];
-
-*/
 
 const add = async (req, res) => {
     const {cc, firstname, lastname} = req.body;
@@ -26,7 +24,14 @@ const add = async (req, res) => {
 module.exports.add = [add];
 
 const getAll = async (req, res) => {
-        const ownersList = await owners.getAll()
-        return  res.status(200).json(ownersList);
+    const ownersList = await owners.getAll()
+    return  res.status(200).json(ownersList);
 };
 module.exports.getAll = [getAll];
+
+const modify = async(req, res) =>{
+    const  {cc, firstname, lastname}  = req.body;
+    await  owners.modify(cc,firstname,lastname )
+    res.status(200).json({message: "User modified"})
+}
+module.exports.modify = [modify];
