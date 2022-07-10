@@ -1,6 +1,7 @@
 
 const mysql = require('../../config/config.database')
-const Admin = require('../entitys/admin.model')
+const admin = require('../entitys/admin.model')
+const Admin = admin.admin
 
 const get = (userName) => {
     return new Promise(function (resolve, reject) {
@@ -22,3 +23,15 @@ const add = (username, firstname, lastname) => {
     })
 }
 exports.add = add;
+
+const getAll = () => {
+    return new Promise(function (resolve, reject) {
+        let admins = []
+        mysql.query("CALL get_admins", function (err, rows) {
+            if (err)  return reject(err);
+            rows[0].forEach(e=> admins.push(new Admin(e.user_name, e.first_name, e.last_name, e.is_banned)))
+            resolve(admins)
+        });
+    })
+}
+exports.getAll = getAll;

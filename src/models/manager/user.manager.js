@@ -35,7 +35,7 @@ exports.getRol = getRol;
 
 const createUser = (idRol, username, password) => {
     return new Promise(function (resolve, reject){
-        mysql.query("insert into user values (?,?,?)", [idRol, username, password], function (err, rows) {
+        mysql.query("insert into user values (?,?,?,0)", [idRol, username, password], function (err, rows) {
             if (err) return  reject(err);
            resolve ('User created')
         });
@@ -43,4 +43,32 @@ const createUser = (idRol, username, password) => {
 }
 exports.createUser = createUser;
 
+const banUser = (username) => {
+    return new Promise(function (resolve, reject){
+        mysql.query("UPDATE user SET is_banned = 1 WHERE user_name = ?", [username], function (err, rows) {
+            if (err) return  reject(err);
+            resolve ('User banned')
+        });
+    })
+}
+exports.banUser = banUser;
 
+const unbanUser = (username) => {
+    return new Promise(function (resolve, reject){
+        mysql.query("UPDATE user SET is_banned = 0 WHERE user_name = ?", [username], function (err, rows) {
+            if (err) return  reject(err);
+            resolve ('User banned')
+        });
+    })
+}
+exports.unbanUser = unbanUser;
+
+const isBanned = (username) => {
+    return new Promise(function (resolve, reject){
+        mysql.query("SELECT is_banned FROM user WHERE user_name = ?", [username], function (err, rows) {
+            if (err) return  reject(err);
+            resolve (Boolean(rows[0].is_banned))
+        });
+    })
+}
+exports.isBanned = isBanned;

@@ -2,8 +2,12 @@ const users = require('../models/manager/user.manager');
 
 const login = async (req, res) => {
     const { username, password } = req.body;
+
     const exist = await users.exist(username);
     if (!exist) return res.status(404).send({error:"User doesn't exist"});
+
+    const isBanned = await users.isBanned(username);
+    if (isBanned) return  res.status(401).send({error: "User is banned"})
 
     const verifyUserAndPass = await  users.verifyUserAndPassword(username,password);
     if (!verifyUserAndPass) return  res.status(401).send({error:"Incorrect password"});
@@ -31,3 +35,24 @@ const create = async(req, res) => {
 }
 module.exports.create = [create];
 
+const banUser = async(req, res) =>{
+    const {username} = req.body
+    const exist = await users.exist(username);
+    if (!exist) return res.status(404).send({error:"User doesn't exist"});
+
+    await users.banUser(username)
+
+    return  res.status(200).json({message: "User banned"});
+}
+module.exports.banUser = [banUser];
+
+const unbanUser = async(req, res) =>{
+    const {username} = req.body
+    const exist = await users.exist(username);
+    if (!exist) return res.status(404).send({error:"User doesn't exist"});
+
+    await users.unbanUser(username)
+
+    return  res.status(200).json({message: "User unbanned"});
+}
+module.exports.unbanUser = [unbanUser];

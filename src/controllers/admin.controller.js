@@ -24,3 +24,11 @@ const add = async (req, res) => {
 };
 module.exports.add = [add];
 
+
+const get_all = async (req, res) => {
+    const adminsList = await admins.getAll()
+    return res.status(200).json(adminsList)
+};
+module.exports.get_all = [get_all];
+
+

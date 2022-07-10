@@ -90,7 +90,6 @@ const getSolvedQuiz = async (req, res) =>{
       }
    }
 
-
    res.status(200).send(sectionsTest)
 }
 module.exports.getSolvedQuiz = [getSolvedQuiz];

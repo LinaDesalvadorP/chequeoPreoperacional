@@ -4,7 +4,7 @@ class Quiz{
         this.movil = movil
         this.ownerName = ownerName
         this.licensePlate = licensePlate
-        this.presentation = presentation
+        this.presentation = new Date(presentation).toLocaleDateString()
     }
 }
 
