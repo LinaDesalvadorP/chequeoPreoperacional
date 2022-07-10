@@ -1,6 +1,7 @@
 const mysql = require('../../config/config.database')
 const vehicle = require('../entitys/vehicle.model')
 const Vehicle = vehicle.vehicle
+const VehicleList = vehicle.vehicleList
 
 const add = (license_plate, cc, movil, model, brand) => {
     return new Promise(function (resolve, reject) {
@@ -27,7 +28,7 @@ const getAll = () => {
         let vehicles = []
         mysql.query("CALL get_vehicles", function (err, rows) {
             if (err)  return reject(err);
-            rows[0].forEach(e=> vehicles.push(new Vehicle(e.license_plate, e.cedula, e.movil)))
+            rows[0].forEach(e=> vehicles.push(new VehicleList(e.license_plate, e.cedula, e.movil, Boolean(e.is_banned))))
             resolve(vehicles)
         });
     })
