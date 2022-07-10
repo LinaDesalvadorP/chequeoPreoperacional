@@ -5,4 +5,7 @@ class Owner{
         this.lastname = lastname
     }
 }
-module.exports  = Owner;
+
+module.exports= {
+    owner:  Owner,
+};

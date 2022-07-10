@@ -1,5 +1,6 @@
 const mysql = require('../../config/config.database')
-const Owner = require('../entitys/owner.model')
+const owner = require('../entitys/owner.model')
+const Owner = owner.owner
 
 const get = (cc) => {
     return new Promise(function (resolve, reject) {
@@ -21,3 +22,15 @@ const add = (cc, firstname, lastname) => {
     })
 }
 exports.add = add;
+
+const getAll = () => {
+    return new Promise(function (resolve, reject) {
+        const owners =[]
+        mysql.query("SELECT * FROM owner", function (err, rows) {
+            if (err)  return reject(err);
+            rows.forEach(e => owners.push(new Owner(e.cedula, e.first_name, e.last_name)))
+            resolve(owners)
+        });
+    })
+}
+exports.getAll = getAll;

@@ -1,3 +1,4 @@
+
 class Admin{
     constructor(username, firstname, lastname, isBanned) {
         this.username =   username
@@ -5,9 +6,10 @@ class Admin{
         this.lastname = lastname
         this.isBanned = isBanned
     }
+
+
 }
 
-
 module.exports= {
-    admin: Admin,
+    admin:  Admin,
 };
