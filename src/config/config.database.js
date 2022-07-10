@@ -2,7 +2,6 @@ require('dotenv').config()
 const mysql = require('mysql')
 
 
-
 const { HOST, USER, PASSWORD, DATABASE } = process.env;
 
 const connection = mysql.createConnection({
@@ -22,10 +21,11 @@ connection.connect(function(err) {
     console.log('Connected to database');
 });
 
-setInterval(function (){
+setInterval( () =>{
     connection.query("Select 10")
 }, 27800)
 
+setInterval(() =>{connection.query("call daily_random_questions")}, 1000 * 60 * 60 * 24)
 
 module.exports = connection;
 
