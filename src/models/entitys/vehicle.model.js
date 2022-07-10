@@ -1,10 +1,14 @@
 class Vehicle{
-    constructor(licensePlate, cc, movil, model, brand) {
+    constructor(licensePlate, cc, movil, model, brand, is_banned) {
         this.licensePlate = licensePlate
         this.cc = cc
         this.movil = movil
         this.model = model
         this.brand = brand
+        this.is_banned = is_banned
     }
 }
-module.exports  = Vehicle;
+
+module.exports= {
+    vehicle:  Vehicle,
+};
