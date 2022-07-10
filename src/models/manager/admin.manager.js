@@ -29,7 +29,7 @@ const getAll = () => {
         let admins = []
         mysql.query("CALL get_admins", function (err, rows) {
             if (err)  return reject(err);
-            rows[0].forEach(e=> admins.push(new Admin(e.user_name, e.first_name, e.last_name, e.is_banned)))
+            rows[0].forEach(e=> admins.push(new Admin(e.user_name, e.first_name, e.last_name, Boolean(e.is_banned))))
             resolve(admins)
         });
     })
