@@ -27,7 +27,7 @@ const getAll = () => {
         let vehicles = []
         mysql.query("CALL get_vehicles", function (err, rows) {
             if (err)  return reject(err);
-            rows[0].forEach(e=> vehicles.push(new Vehicle(e.license_plate, e.cedula, e.movil ,Boolean(e.is_banned))))
+            rows[0].forEach(e=> vehicles.push(new Vehicle(e.license_plate, e.cedula, e.movil)))
             resolve(vehicles)
         });
     })
