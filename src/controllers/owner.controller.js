@@ -32,6 +32,6 @@ module.exports.getAll = [getAll];
 const modify = async(req, res) =>{
     const  {cc, firstname, lastname}  = req.body;
     await  owners.modify(cc,firstname,lastname )
-    res.status(200).json({message: "User modified"})
+    return res.status(200).json({message: "User modified"})
 }
 module.exports.modify = [modify];

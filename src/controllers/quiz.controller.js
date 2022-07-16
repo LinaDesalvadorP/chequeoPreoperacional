@@ -4,7 +4,6 @@ const quiz = require('../models/manager/quiz.manager')
 const answers = require('../models/manager/answer.manager')
 
 const getTodayQuiz = async (req, res) => {
-
    const  unsolvedQuestions  = await questions.getTodayQuestions()
    const sectionsTest = await sections.getTodaySections()
 
@@ -23,9 +22,44 @@ const getTodayQuiz = async (req, res) => {
       }
    }
 
-   res.status(200).json(sectionsTest)
+   return res.status(200).json(sectionsTest)
 }
 module.exports.getTodayQuiz = [getTodayQuiz];
+
+const getInitialQuiz = async (req, res) => {
+   const  unsolvedQuestions  = await questions.getInitialQuiz()
+   const sectionsTest = await sections.getInitialSections()
+
+
+
+   for(let i = 0; i< unsolvedQuestions.length; i++){
+      if (unsolvedQuestions[i].type === 'MA' || unsolvedQuestions[i].type === 'SA') {
+         unsolvedQuestions[i].answerOptions = await questions.getAnswers(unsolvedQuestions[i].id)
+      }
+   }
+
+   for(let i = 0; i< sectionsTest.length; i++){
+      for(let j = 0; j< unsolvedQuestions.length; j++) {
+         if (unsolvedQuestions[j].section === sectionsTest[i].name){
+            sectionsTest[i].questions.push(unsolvedQuestions[j])
+            unsolvedQuestions[j].section = undefined
+         }
+      }
+   }
+   return res.status(200).json(sectionsTest)
+}
+module.exports.getInitialQuiz = [getInitialQuiz];
+
+
+const getQuiz = async (req, res) => {
+   const {licensePlate} = req.body
+   const totalQuiz = await quiz.getTotalQuiz(licensePlate)
+
+   if(totalQuiz === 0) return  res.redirect("initial-quiz")
+
+   return res.redirect("today-quiz")
+}
+module.exports.getQuiz = [getQuiz];
 
 const saveQuiz = async (req, res) => {
    const testInfo = req.body
@@ -58,12 +92,12 @@ const saveQuiz = async (req, res) => {
 
    }
 
-   res.status(200).send({message: "Ok"})
+   return res.status(200).send({message: "Ok"})
 }
 module.exports.saveQuiz = [saveQuiz];
 
 const getQuizList = async (req, res) =>{
-   res.status(200).send(await  quiz.getQuizList())
+   return res.status(200).send(await  quiz.getQuizList())
 }
 module.exports.getQuizList = [getQuizList];
 
@@ -90,6 +124,13 @@ const getSolvedQuiz = async (req, res) =>{
       }
    }
 
-   res.status(200).send(sectionsTest)
+   return res.status(200).send(sectionsTest)
 }
 module.exports.getSolvedQuiz = [getSolvedQuiz];
+
+const getTotalSolvedQuizByDay = async (req, res) =>{
+   const {day} = req.body;
+   const totalQuiz = await quiz.getTotalSolvedQuizByDay(day)
+   return res.status(200).send(totalQuiz)
+}
+module.exports.getTotalSolvedQuizByDay = [getTotalSolvedQuizByDay];

@@ -22,6 +22,20 @@ const getTodayQuestions = () =>{
 }
 exports.getTodayQuestions = getTodayQuestions;
 
+const getInitialQuiz = () =>{
+    let questions = []
+    return new Promise(function (resolve, reject) {
+        mysql.query("SELECT * FROM initial_quiz", function (err, result) {
+            if (err)  return reject(err);
+            result.forEach(e => {
+                questions.push(new Question(e.id, e.statement, e.section, e.type))
+            })
+            resolve(questions)
+        });
+    })
+}
+exports.getInitialQuiz = getInitialQuiz;
+
 
 const getAnswers = (questionId) => {
     let answers = []

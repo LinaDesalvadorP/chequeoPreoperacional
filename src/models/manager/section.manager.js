@@ -18,6 +18,22 @@ const getTodaySections = () =>{
 
 exports.getTodaySections = getTodaySections;
 
+
+const getInitialSections = () =>{
+    let sections = []
+    return new Promise(function (resolve, reject) {
+        mysql.query("SELECT name, image_path as imgPath FROM initial_quiz_sections",function (err, result) {
+            if (err)  return reject(err);
+            result.forEach(e=> {
+                sections.push(new Section(e.name, e.imgPath))
+            })
+            resolve(sections)
+        });
+    })
+}
+
+exports.getInitialSections = getInitialSections;
+
 const getQuizSections = (quizId) =>{
     let sections = []
     return new Promise(function (resolve, reject) {

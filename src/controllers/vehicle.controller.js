@@ -18,7 +18,7 @@ module.exports.modify = [modify];
 
 const getAll = async (req, res) => {
     const vehicleList = await  vehicles.getAll()
-    res.status(200).json(vehicleList)
+    return res.status(200).json(vehicleList)
 };
 module.exports.getAll = [getAll];
 
