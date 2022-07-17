@@ -1,8 +1,9 @@
 const mysql = require('../../config/config.database')
 const quiz = require('../entitys/quiz.model')
+const QuizListFormat = quiz.quizListFormat
 const Quiz = quiz.quiz
 
-const createTest = (licensePlate) =>{
+const createQuiz = (licensePlate) =>{
     return new Promise(function (resolve, reject) {
         mysql.query("INSERT INTO quiz (license_plate, presentaion) VALUES (?, CURDATE());", licensePlate,function (err, result) {
             if (err)  return reject(err);
@@ -10,7 +11,7 @@ const createTest = (licensePlate) =>{
         });
     })
 }
-exports.createTest = createTest;
+exports.createTest = createQuiz;
 
 const getTotalQuiz = (licensePlate) =>{
     return new Promise(function (resolve, reject) {
@@ -34,12 +35,12 @@ const saveQuizSolved = (quizId, questionId, answerId) =>{
 exports.saveQuizSolved = saveQuizSolved;
 
 const getQuizList = () =>{
-    let quizes = []
+    let quizList = []
     return new Promise(function (resolve, reject) {
         mysql.query("SELECT * FROM quiz_list",function (err, result) {
             if (err)  return reject(err);
-            result.forEach(e => quizes.push(new Quiz(e.id,e.movil, e.name, e.license_plate, e.presentation)))
-            resolve(quizes)
+            result.forEach(e => quizList.push(new QuizListFormat(e.id,e.movil, e.name, e.license_plate, e.presentation)))
+            resolve(quizList)
         });
     })
 }
@@ -54,4 +55,9 @@ const getTotalSolvedQuizByDay = (day) =>{
     })
 }
 exports.getTotalSolvedQuizByDay = getTotalSolvedQuizByDay;
+
+const createEmptyQuiz = (type, sections) =>{
+    return new Quiz(type, sections)
+}
+exports.createEmptyQuiz = createEmptyQuiz;
 

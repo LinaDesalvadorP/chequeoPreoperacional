@@ -3,69 +3,47 @@ const sections = require('../models/manager/section.manager')
 const quiz = require('../models/manager/quiz.manager')
 const answers = require('../models/manager/answer.manager')
 
-const getTodayQuiz = async (req, res) => {
-   const  unsolvedQuestions  = await questions.getTodayQuestions()
-   const sectionsTest = await sections.getTodaySections()
-
-   for(let i = 0; i< unsolvedQuestions.length; i++){
-      if (unsolvedQuestions[i].type === 'MA' || unsolvedQuestions[i].type === 'SA') {
-         unsolvedQuestions[i].answerOptions = await questions.getAnswers(unsolvedQuestions[i].id)
-      }
-   }
-
-   for(let i = 0; i< sectionsTest.length; i++){
-      for(let j = 0; j< unsolvedQuestions.length; j++) {
-         if (unsolvedQuestions[j].section === sectionsTest[i].name){
-            sectionsTest[i].questions.push(unsolvedQuestions[j])
-            unsolvedQuestions[j].section = undefined
-         }
-      }
-   }
-
-   return res.status(200).json(sectionsTest)
-}
-module.exports.getTodayQuiz = [getTodayQuiz];
-
-const getInitialQuiz = async (req, res) => {
-   const  unsolvedQuestions  = await questions.getInitialQuiz()
-   const sectionsTest = await sections.getInitialSections()
-
-
-
-   for(let i = 0; i< unsolvedQuestions.length; i++){
-      if (unsolvedQuestions[i].type === 'MA' || unsolvedQuestions[i].type === 'SA') {
-         unsolvedQuestions[i].answerOptions = await questions.getAnswers(unsolvedQuestions[i].id)
-      }
-   }
-
-   for(let i = 0; i< sectionsTest.length; i++){
-      for(let j = 0; j< unsolvedQuestions.length; j++) {
-         if (unsolvedQuestions[j].section === sectionsTest[i].name){
-            sectionsTest[i].questions.push(unsolvedQuestions[j])
-            unsolvedQuestions[j].section = undefined
-         }
-      }
-   }
-   return res.status(200).json(sectionsTest)
-}
-module.exports.getInitialQuiz = [getInitialQuiz];
-
 
 const getQuiz = async (req, res) => {
    const {licensePlate} = req.body
    const totalQuiz = await quiz.getTotalQuiz(licensePlate)
+   let sectionsTest
+   let unsolvedQuestions
+   let newQuiz
 
-   if(totalQuiz === 0) return  res.redirect("initial-quiz")
+   if (totalQuiz === 0) {
+      sectionsTest = await sections.getInitialSections()
+      unsolvedQuestions  = await questions.getInitialQuiz()
+      newQuiz = quiz.createEmptyQuiz("Initial", sectionsTest)
+   }else{
+      unsolvedQuestions  = await questions.getTodayQuestions()
+      sectionsTest = await sections.getTodaySections()
+      newQuiz = quiz.createEmptyQuiz("Daily", sectionsTest)
+   }
 
-   return res.redirect("today-quiz")
+   for(let i = 0; i< unsolvedQuestions.length; i++){
+      if (unsolvedQuestions[i].type === 'MA' || unsolvedQuestions[i].type === 'SA') {
+         unsolvedQuestions[i].answerOptions = await questions.getAnswers(unsolvedQuestions[i].id)
+      }
+   }
+
+   for(let i = 0; i< sectionsTest.length; i++){
+      for(let j = 0; j< unsolvedQuestions.length; j++) {
+         if (unsolvedQuestions[j].section === sectionsTest[i].name){
+            sectionsTest[i].questions.push(unsolvedQuestions[j])
+            unsolvedQuestions[j].section = undefined
+         }
+      }
+   }
+
+   return res.status(200).send(newQuiz)
 }
 module.exports.getQuiz = [getQuiz];
 
 const saveQuiz = async (req, res) => {
    const testInfo = req.body
    const quizAnswers = testInfo[1]
-   const quizId = await quiz.createTest(testInfo[0])
-
+   const quizId = await quiz.createQuiz(testInfo[0])
 
    for (let answer of quizAnswers){
       if (await questions.getQuestionType(answer.idQuestion) !== 'SA' && await questions.getQuestionType(answer.idQuestion) !== 'MA'){

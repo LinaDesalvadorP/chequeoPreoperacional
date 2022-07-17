@@ -113,4 +113,3 @@ const getSolvedOpenAnswer = (quizId, questionId) => {
     })
 }
 exports.getSolvedOpenAnswer = getSolvedOpenAnswer;
-
