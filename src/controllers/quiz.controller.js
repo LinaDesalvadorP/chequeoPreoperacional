@@ -106,9 +106,15 @@ const getSolvedQuiz = async (req, res) =>{
 }
 module.exports.getSolvedQuiz = [getSolvedQuiz];
 
-const getTotalSolvedQuizByDay = async (req, res) =>{
-   const {day} = req.body;
-   const totalQuiz = await quiz.getTotalSolvedQuizByDay(day)
+const getTotalSolvedQuizToday = async (req, res) =>{
+   const totalQuiz = await quiz.getTotalSolvedQuizByDay()
    return res.status(200).send(totalQuiz)
 }
-module.exports.getTotalSolvedQuizByDay = [getTotalSolvedQuizByDay];
+module.exports.getTotalSolvedQuizToday = [getTotalSolvedQuizToday];
+
+const getTotalChecksInMonth = async (req, res) =>{
+   const {year, month} = req.body
+   const totalQuiz = await quiz.getTotalChecksInMonth(year,month)
+   return res.status(200).send(totalQuiz)
+}
+module.exports.getTotalChecksInMonth = [getTotalChecksInMonth];

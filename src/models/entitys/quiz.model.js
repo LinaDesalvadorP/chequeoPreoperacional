@@ -15,8 +15,16 @@ class Quiz{
     }
 }
 
+class RealizedQuiz{
+    constructor(day, realized) {
+        this.day = day
+        this.realized = realized
+    }
+}
+
 module.exports= {
     quizListFormat: QuizListFormat,
-    quiz: Quiz
+    quiz: Quiz,
+    realizedQuiz: RealizedQuiz
 };
 

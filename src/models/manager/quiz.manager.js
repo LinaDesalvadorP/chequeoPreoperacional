@@ -2,6 +2,7 @@ const mysql = require('../../config/config.database')
 const quiz = require('../entitys/quiz.model')
 const QuizListFormat = quiz.quizListFormat
 const Quiz = quiz.quiz
+const RealizedQuiz = quiz.realizedQuiz
 
 const createQuiz = (licensePlate) =>{
     return new Promise(function (resolve, reject) {
@@ -46,15 +47,27 @@ const getQuizList = () =>{
 }
 exports.getQuizList = getQuizList;
 
-const getTotalSolvedQuizByDay = (day) =>{
+const getTotalSolvedQuizToday = () =>{
     return new Promise(function (resolve, reject) {
-        mysql.query("call get_total_solved_quiz_by_day(?);",day,function (err, result) {
+        mysql.query("call get_total_solved_quiz_today();",function (err, result) {
             if (err)  return reject(err);
-         result[0].forEach(e =>  resolve(e))
+            result[0].forEach(e =>  resolve(e))
         });
     })
 }
-exports.getTotalSolvedQuizByDay = getTotalSolvedQuizByDay;
+exports.getTotalSolvedQuizByDay = getTotalSolvedQuizToday;
+
+const getTotalChecksInMonth = (year, month) =>{
+    return new Promise(function (resolve, reject) {
+        let checks = []
+        mysql.query("call get_today_total_checks_in_month(?,?);",[year, month],function (err, result) {
+            if (err)  return reject(err);
+            result[0].forEach(e =>  checks.push(new RealizedQuiz(e.day, e.realized)))
+            resolve(checks)
+        });
+    })
+}
+exports.getTotalChecksInMonth = getTotalChecksInMonth;
 
 const createEmptyQuiz = (type, sections) =>{
     return new Quiz(type, sections)
