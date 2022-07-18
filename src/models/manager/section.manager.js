@@ -46,3 +46,16 @@ const getQuizSections = (quizId) =>{
 }
 
 exports.getQuizSections = getQuizSections;
+
+
+const fillSectionsWithAnswers = async (sections, questions) =>{
+    for(let s of sections){
+        for(let q of questions) {
+            if (q.section === s.name){
+                s.questions.push(q)
+                q.section = undefined
+            }
+        }
+    }
+}
+exports.fillSectionsWithAnswers = fillSectionsWithAnswers;

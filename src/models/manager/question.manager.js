@@ -22,7 +22,7 @@ const getTodayQuestions = () =>{
 }
 exports.getTodayQuestions = getTodayQuestions;
 
-const getInitialQuiz = () =>{
+const getInitialQuestions = () =>{
     let questions = []
     return new Promise(function (resolve, reject) {
         mysql.query("SELECT * FROM initial_quiz", function (err, result) {
@@ -34,7 +34,7 @@ const getInitialQuiz = () =>{
         });
     })
 }
-exports.getInitialQuiz = getInitialQuiz;
+exports.getInitialQuestions = getInitialQuestions;
 
 
 const getAnswers = (questionId) => {
@@ -113,3 +113,12 @@ const getSolvedOpenAnswer = (quizId, questionId) => {
     })
 }
 exports.getSolvedOpenAnswer = getSolvedOpenAnswer;
+
+const getOptionsAnswers = async (questions) =>{
+    for(let q of questions){
+        if (q.type === 'MA' || q.type === 'SA') {
+            q.answerOptions = await getAnswers(q.id)
+        }
+    }
+}
+exports.getOptionsAnswers = getOptionsAnswers;
