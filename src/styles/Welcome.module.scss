@@ -1,0 +1,40 @@
+@import 'vars';
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 10px 10px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "title title"
+    "leftPanel rightPanel"
+    "leftPanel rightPanel"
+    "leftPanel rightPanel";
+  text-align: center;
+}
+
+.title {
+  grid-area: title;
+  color: var(--sky-blue);
+  align-self: center;
+}
+
+.leftPanel {
+  grid-area: leftPanel;
+}
+
+.rightPanel {
+  grid-area: rightPanel;
+  align-self: center;
+  margin: 0vh 10vw 0vh 0vw;
+}
+
+.rightPanel h4 {
+  text-align: justify;
+  margin-bottom: 10vh;
+}
+
+.rightPanel button{
+  background-color: var(--sky-blue);
+}

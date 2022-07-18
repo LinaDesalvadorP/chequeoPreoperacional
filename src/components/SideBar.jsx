@@ -4,20 +4,32 @@ import * as MdIcons from "react-icons/md";
 
 export const SideBar = [
     {
-        title: 'Registrar Administrador',
-        path: '/create-admin',
-        icon: <FaIcons.FaUserPlus />,
+        title: 'Dashboard',
+        path: '/dashboard',
+        icon: <FaIcons.FaChartBar />,
         cName: 'nav-text'
     },
     {
-        title: 'Registrar taxi',
-        path: '/create-vehicle',
+        title: 'Administradores',
+        path: '/admins',
+        icon: <FaIcons.FaUserShield />,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Propietarios',
+        path: '/owners',
+        icon: <FaIcons.FaUserFriends/>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Taxis',
+        path: '/taxis',
         icon: <MdIcons.MdDirectionsCarFilled />,
         cName: 'nav-text'
     },
     {
-        title: 'Ver chequeos',
-        path: '/checks-list',
+        title: 'Chequeos',
+        path: '/checks',
         icon: <FaIcons.FaRegListAlt />,
         cName: 'nav-text'
     },

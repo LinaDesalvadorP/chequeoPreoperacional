@@ -19,7 +19,7 @@ const ChecksTable = () => {
     async function fetchQuestion() {
       const response = await fetch(API);
       const json = await response.json();
-      // console.log("**"+JSON.stringify(json));
+      console.log("**"+JSON.stringify(json));
       setQuestions(json);
     }
     fetchQuestion();
@@ -27,8 +27,8 @@ const ChecksTable = () => {
 
   const columns = [
     {dataField: "movil", text:"Movil"},
-    {dataField: "ownerName", text:"Propietario"},
-    {dataField: "licensePlate", text:"Placa"},
+    {dataField: "name", text:"Propietario"},
+    {dataField: "license_plate", text:"Placa"},
     {dataField: "presentation", text:"Fecha"}
   ];
 

@@ -1,88 +1,228 @@
-import React, {useRef} from 'react';
-import styles from "../styles/CreateAdmin.module.scss";
-// import styles from "../styles/CreateAdmnin.module.scss";
-import NavBar from "../components/NavBar";
-import {useNavigate} from "react-router-dom";
+import React, { Component } from "react";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import axios from "axios";
-const verifyUserRoute = 'http://localhost:5000/api/user/add';
-const addAdmin = 'http://localhost:5000/api/admin/add';
+import Navbar from "./../components/NavBar";
 
-const CreateAdmin = () => {
-    const form = useRef(null);
-    const navigate = useNavigate();
+const API_GET_ADMINS = "http://localhost:5000/api/admin/get-all";
+const API_POST_BAN = "http://localhost:5000/api/user/ban-user";
+const API_POST_UNBAN = "http://localhost:5000/api/user/unban-user";
 
-    const createAdmin = (event) => {
+const API_POST_VERIFY_USER = "http://localhost:5000/api/user/add";
+const addAdmin = "http://localhost:5000/api/admin/add";
 
-        event.preventDefault();
-        const formData = new FormData(form.current);
-        const dataUser = {idRol: 4, username: formData.get('cedula'), password: formData.get('contrasena')}
-        const dataAdmin = { username: formData.get('cedula'), firstname: formData.get('nombres'), lastname: formData.get('apellidos') }
-        axios.post(verifyUserRoute, dataUser)
-            .then((response) =>{
-                axios.post(addAdmin, dataAdmin).then((response) =>{
-                    navigate('/validate-owner');
-                })
-            })
-    }
+class CreateAdmin extends Component {
+  state = {
+    data: [],
+    modalInsertar: false,
+    form: {
+      username: "",
+      firstname: "",
+      lastname: "",
+      isBanned: "",
+      password: "",
+    },
+  };
+
+  loadData = () => {
+    axios
+      .get(API_GET_ADMINS)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ data: response.data });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+  componentDidMount() {
+    this.loadData();
+  }
+
+  banAdmin(id) {
+    axios.post(API_POST_BAN, { username: id }).then((response) => {
+      this.loadData();
+    });
+  }
+
+  unbanAdmin(id) {
+    axios.post(API_POST_UNBAN, { username: id }).then((response) => {
+      this.loadData();
+    });
+  }
+  modalInsertar = () => {
+    this.setState({ modalInsertar: !this.state.modalInsertar });
+  };
+
+  saveAdmin = () => {
+    var dataUser = {
+      idRol: 4,
+      username: this.state.form.username,
+      password: this.state.form.password,
+    };
+    var dataAdmin = {
+      username: this.state.form.username,
+      firstname: this.state.form.firstname,
+      lastname: this.state.form.lastname,
+    };
+    console.log(dataUser)
+    console.log(dataAdmin)
+    axios.post(API_POST_VERIFY_USER, dataUser)
+    .then((response) => {
+        axios.post(addAdmin, dataAdmin)
+          .then((response) => {
+             this.modalInsertar();
+              this.loadData();
+          })
+          .catch((error) => {
+            console.log("2:   " + error.message);
+          });
+      })
+      .catch((error) => {
+        console.log("1:  " + error.message);
+      });
+  };
+
+  handleChange = async (e) => {
+    e.persist();
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      },
+    });
+    console.log(this.state.form);
+  };
+  render() {
+    const { form } = this.state;
     return (
-        <>
-            <NavBar/>
-            <div className={styles.formContainer}>
-                <h1>Registrar administrador</h1>
-                <form onSubmit={createAdmin} ref={form}>
-                    <hr></hr>
-                    <div className={styles.sectionForm}>
-                        <div className={styles.titleSectionForm}>
-                        <h2>Datos personales</h2>
-                        </div>
-                        <div className={styles.contentSectionForm}>
-                            <div className={styles.inputContainer}>
-                                <input 
-                                type="number" 
-                                className={styles.input} 
-                                name="cedula" 
-                                placeholder=" "
-                                id=""/>
-                                <label htmlFor="cedula" className={styles.label}>Cedula</label>
-                            </div>
-                            <div className={styles.inputContainer}>
-                                <input 
-                                type="text" 
-                                className={styles.input} 
-                                name="nombres" 
-                                placeholder=" " 
-                                id="" 
-                                />
-                                <label htmlFor="nombres" className={styles.label}>Nombres</label>
-                            </div>
-                            <div className={styles.inputContainer}>
-                                <input type="text" className={styles.input} name="apellidos" placeholder=" " id="" />
-                                <label htmlFor="apellidos" className={styles.label}>Apellidos</label>
-                            </div>
-                        </div>
-                    </div> 
+      <>
+        <Navbar />
+        <div className="App" style={{ margin: "0px 5vw" }}>
+          <br />
+          <h2 style={{textAlign: "center"}}>Administradores</h2>
+          <br />
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              this.setState({ form: null, tipoModal: "insertar" });
+              this.modalInsertar();
+            }}
+          >
+            Agregar administrador
+          </button>
+          <br />
+          <br />
+          <table className="table" >
+            <thead>
+              <tr>
+                <th>Cédula</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.data.map((administrador, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{administrador.username}</td>
+                    <td>{administrador.firstname}</td>
+                    <td>{administrador.lastname}</td>
+                    <td>
+                      {administrador.isBanned == "1" ? (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            this.unbanAdmin(administrador.username);
+                          }}
+                        >
+                          Habilitar
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            this.banAdmin(administrador.username);
+                          }}
+                        >
+                          Bloquear
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
 
-                    <hr></hr>
-                    <div className={styles.sectionForm}>
-                        <div className={styles.titleSectionForm}>
-                        <h2>Credenciales</h2>
-                        </div>
-                        <div className={styles.contentSectionForm}>
-                        <div className={styles.inputContainer}>
-                            <input type="text" className={styles.input} name="contrasena" placeholder=" " id="" />
-                            <label htmlFor="contrasena" className={styles.label}>Contrasena</label>
-                        </div>
-                        </div>
-                    </div>
-                    <br></br>
+          <Modal isOpen={this.state.modalInsertar}>
+            <ModalHeader style={{ display: "block" }}>
+              <span style={{ float: "left" }}>Agregar administrador</span>
+            </ModalHeader>
+            <ModalBody>
+            <h4>Datos personales</h4>
+              <div className="form-group">
+                <label htmlFor="username">Cédula</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="username"
+                  id="username"
+                  onChange={this.handleChange}
+                />
+                <br />
+                <label htmlFor="firstname">Nombres</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="firstname"
+                  id="firstname"
+                  onChange={this.handleChange}
+                  //   value={form ? form.username : ""}
+                />
+                <br />
+                <label htmlFor="lastname">Apellidos</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="lastname"
+                  id="lastname"
+                  onChange={this.handleChange}
+                  //   value={form ? form.apellidos : ""}
+                />
+                <br />
+                <h4>Credenciales</h4>
+                <label htmlFor="password">Contraseña</label>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="password"
+                  id="password"
+                  onChange={this.handleChange}
+                  //   value={form ? form.password : ""}
+                />
+              </div>
+            </ModalBody>
 
-                    <div className={styles.submitBtn}>
-                        <button className={styles.btnSend} type="submit"> Guardar </button>
-                    </div>
-                </form> 
-            </div> 
-        </>
+            <ModalFooter>
+              <button
+                className="btn btn-primary"
+                onClick={() => this.saveAdmin()}
+              >
+                Agregar
+              </button>
+
+              <button
+                className="btn btn-danger"
+                onClick={() => this.modalInsertar()}
+              >
+                Cancelar
+              </button>
+            </ModalFooter>
+          </Modal>
+        </div>
+      </>
     );
+  }
 }
-
 export default CreateAdmin;

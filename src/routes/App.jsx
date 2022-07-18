@@ -10,7 +10,10 @@ import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import DailyCheck from '../containers/DailyCheck';
 import ChecksListAdmin from './../containers/ChecksListAdmin';
-import SuccessfulRegistration from './../containers/SuccessfulRegistration';
+import Owners from '../containers/Owners';
+import Taxis from './../containers/Taxis';
+import Dashboard from './../containers/Dashboard';
+import Welcome from './../containers/Welcome';
 
 
 export const App = () => {
@@ -20,12 +23,15 @@ export const App = () => {
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/login' element={<Login />}/>
-                    <Route path='/validate-owner' element={<ValidateOwner />}/>
-                    <Route path='/create-vehicle' element={<CreateVehicle />}/>
-                    <Route path='/create-admin' element={<CreateAdmin />}/>
                     <Route path='/daily-check' element={<DailyCheck />}/>
-                    <Route path='/checks-list' element={<ChecksListAdmin />}/>
-                    <Route path='/successful-registration' element={<SuccessfulRegistration/>}/>
+                    <Route path='/admins' element={<CreateAdmin />}/>
+                    <Route path='/owners' element={<Owners/>}/>
+                    <Route path='/validate-owner' element={<ValidateOwner />}/>
+                    <Route path='/taxis' element={<Taxis />}/>
+                    <Route path='/create-vehicle' element={<CreateVehicle />}/>
+                    <Route path='/checks' element={<ChecksListAdmin />}/>
+                    <Route path='/dashboard' element={<Dashboard />}/>
+                    <Route path='/welcome' element={<Welcome />}/>
                     <Route path='*' element={<NotFound />}/>
                 </Routes>
             </Layout>

@@ -6,7 +6,7 @@ import moment from "moment";
 import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 import Login from './../containers/Login';
-import logo from "../../public/assets/images/main_logo_yellow.png";
+import HeaderUser from './../components/HeaderUser';
 
 const API = "http://localhost:5000/api/quiz/get/today-quiz";
 const SAVE_CHECK_API = "http://localhost:5000/api/quiz/save";
@@ -78,6 +78,7 @@ const DailyCheck = () => {
             name={itemName}
             type="date"
             className="mb-4 form-control answer-1"
+            
           ></input>
         );
       case "MA":
@@ -167,12 +168,6 @@ const DailyCheck = () => {
     })
   };
 
-  const logout = (event) => {
-    localStorage.setItem("auth", "no")
-    localStorage.setItem("user", "null")
-    navigate('/login');
-  }
-
   /*
    *   Carga de datos desde el backend
    */
@@ -193,24 +188,12 @@ const DailyCheck = () => {
   const renderChequeo = () =>{
     return (
     <>
-      <div className={styles.header}>
-          <div className={styles["identidad-corp-container"]}>
-              <img src={logo} alt="logo de la aplicacion" /> <br></br>
-              <h1>
-                  <span>CHECK</span>CAR
-              </h1>
-              <br></br>
-          </div>
-          <div className={styles.logout}>
-              <button className='btn btn-danger' onClick={logout}>Cerrar sesión</button>
-          </div>
-      </div>
-
-
+      <HeaderUser />
       <div className="row m-1 justify-content-center">
         <div className="row py-4 title text-center">
           <span className="fs-2 fw-bold"> Chequeo preoperacional</span>
-          <small>{moment().format("DD-MM-YYYY hh:mm:ss")}</small>
+          <small>{moment().format("DD-MMM-YYYY hh:mm:ss")}</small>
+          <span className="fs-7">Placa: {localStorage.getItem("user")}</span>
         </div>
 
         <div className="col-lg-8">

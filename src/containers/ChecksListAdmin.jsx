@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './../components/NavBar';
 import checkImg from '../../public/assets/images/cheque.png';
-import { ChecksListData } from '../components/ChecksListData'
 import ChecksTable from './ChecksTable';
 
 // const API = 'http://api';

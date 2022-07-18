@@ -7,7 +7,7 @@ const AccordionAnswered = (props) => {
   const [questions, setQuestions] = useState([]);
   useEffect(() => {
     async function fetchQuestion() {
-      const response = await fetch("http://localhost:5000/api/quiz/get-quiz/134");
+      const response = await fetch("http://localhost:5000/api/quiz/get-quiz/"+props.id);
       const json = await response.json();
       console.log("**"+JSON.stringify(json));
       setQuestions(json);
@@ -87,6 +87,7 @@ const AccordionAnswered = (props) => {
           type="date"
           className="mb-4 form-control answer-1"
           placeholder={solvedOpenAnswer.statement}
+          value={solvedOpenAnswer.statement}
           readOnly= "true"
           ></input>
         );
@@ -95,7 +96,7 @@ const AccordionAnswered = (props) => {
           <div className="mb-3 col-sm-12 col-lg-8 px-4">
             <div className="row">
               {respuestas?.map((itemRespuesta, index) => (
-                <div key={index} className="form-check col-lg-4  col-sm-12">
+                <div key={index} className="form-check col-lg-6  col-sm-4">
                   <input
                     className="form-check-input ml-4"
                     value={itemRespuesta.id}
