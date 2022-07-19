@@ -8,7 +8,7 @@ const getTodayQuiz = async (req, res) =>{
    const unsolvedQuestions = await  questions.getTodayQuestions()
    await questions.getOptionsAnswers(unsolvedQuestions)
    await sections.fillSectionsWithAnswers(sectionsQuiz, unsolvedQuestions)
-
+   console.log("aca")
    res.status(200).send(sectionsQuiz)
 }
 module.exports.getTodayQuiz = [getTodayQuiz];
@@ -26,7 +26,6 @@ module.exports.getInitialQuiz = [getInitialQuiz];
 
 const getQuiz = async (req, res) => {
    const licensePlate = req.params.license
-   console.log(licensePlate)
    const totalQuiz = await quiz.getTotalQuiz(licensePlate)
 
    if (totalQuiz === 0) return res.status(200).send({message: "Initial quiz"})

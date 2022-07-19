@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const testController = require('../controllers/quiz.controller')
 
-router.get('/get/:license', testController.getQuiz)
+router.get('/get/quiz-type/:license', testController.getQuiz)
 router.get('/get/today-quiz', testController.getTodayQuiz)
 router.get('/get/initial-quiz', testController.getInitialQuiz)
 router.get('/get/solved-today', testController.getTotalSolvedQuizToday)
