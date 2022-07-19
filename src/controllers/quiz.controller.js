@@ -25,7 +25,8 @@ module.exports.getInitialQuiz = [getInitialQuiz];
 
 
 const getQuiz = async (req, res) => {
-   const {licensePlate} = req.body
+   const licensePlate = req.params.license
+   console.log(licensePlate)
    const totalQuiz = await quiz.getTotalQuiz(licensePlate)
 
    if (totalQuiz === 0) return res.status(200).send({message: "Initial quiz"})
