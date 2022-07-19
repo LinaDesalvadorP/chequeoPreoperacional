@@ -6,9 +6,11 @@ const answers = require('../models/manager/answer.manager')
 const getTodayQuiz = async (req, res) =>{
    const sectionsQuiz = await  sections.getTodaySections()
    const unsolvedQuestions = await  questions.getTodayQuestions()
+   await questions.fillRecommendation(unsolvedQuestions)
    await questions.getOptionsAnswers(unsolvedQuestions)
    await sections.fillSectionsWithAnswers(sectionsQuiz, unsolvedQuestions)
-   console.log("aca")
+
+
    res.status(200).send(sectionsQuiz)
 }
 module.exports.getTodayQuiz = [getTodayQuiz];
@@ -16,6 +18,7 @@ module.exports.getTodayQuiz = [getTodayQuiz];
 const getInitialQuiz = async (req, res) =>{
    const sectionsQuiz = await  sections.getInitialSections()
    const unsolvedQuestions = await  questions.getInitialQuestions()
+   await questions.fillRecommendation(unsolvedQuestions)
    await questions.getOptionsAnswers(unsolvedQuestions)
    await sections.fillSectionsWithAnswers(sectionsQuiz, unsolvedQuestions)
 
@@ -42,8 +45,6 @@ const saveQuiz = async (req, res) => {
       if (await questions.getQuestionType(answer.idQuestion) !== 'SA' && await questions.getQuestionType(answer.idQuestion) !== 'MA'){
            answer.respuesta = await answers.saveNewOpenAnswer(answer.respuesta)
       }
-
-
       switch (await questions.getQuestionType(answer.idQuestion)){
          case 'MA':
             for (let selectedAnswers of answer.respuesta)

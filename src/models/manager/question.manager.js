@@ -7,6 +7,8 @@ const question = require('../entitys/question.model')
 const Question = question.question
 const SolvedOpenQuestion = question.solvedOpenQuestion
 const SolvedSelectionQuestion = question.solvedSelectionQuestion
+const recommendation = require('../entitys/recomendation.model')
+const Recommendation = recommendation.recommendation
 
 const getTodayQuestions = () =>{
     let questions = []
@@ -122,3 +124,20 @@ const getOptionsAnswers = async (questions) =>{
     }
 }
 exports.getOptionsAnswers = getOptionsAnswers;
+
+const getRecommendation = async (questionId) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("CALL get_recomendation(?)", [questionId],function (err, result) {
+            if (err)  return reject(err);
+            result[0].forEach(e=> resolve(new Recommendation(e.text, e.type)))
+        });
+    })
+}
+exports.getRecommendation = getRecommendation;
+
+const fillRecommendation = async (questions) =>{
+    for(let q of questions){
+        q.recommendation = await getRecommendation(q.id)
+    }
+}
+exports.fillRecommendation = fillRecommendation;
