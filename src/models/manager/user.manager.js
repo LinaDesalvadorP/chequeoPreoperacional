@@ -72,3 +72,13 @@ const isBanned = (username) => {
     })
 }
 exports.isBanned = isBanned;
+
+const hasCheck = (username) => {
+    return new Promise(function (resolve, reject){
+        mysql.query("call has_check(?)", [username], function (err, rows) {
+            if (err) return  reject(err);
+            rows[0].forEach(e => resolve(Boolean(e.isCheck)))
+        });
+    })
+}
+exports.hasCheck = hasCheck;

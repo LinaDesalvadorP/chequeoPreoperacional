@@ -6,11 +6,15 @@ const login = async (req, res) => {
     const exist = await users.exist(username);
     if (!exist) return res.status(404).send({error:"User doesn't exist"});
 
+    const verifyUserAndPass = await  users.verifyUserAndPassword(username,password);
+    if (!verifyUserAndPass) return  res.status(401).send({error:"Incorrect password"});
+
     const isBanned = await users.isBanned(username);
     if (isBanned) return  res.status(401).send({error: "User is banned"})
 
-    const verifyUserAndPass = await  users.verifyUserAndPassword(username,password);
-    if (!verifyUserAndPass) return  res.status(401).send({error:"Incorrect password"});
+
+    const hasCheck = await  users.hasCheck(username)
+    if (hasCheck) return  res.status(401).send({error: "User already checked"})
 
     const  userRol = await  users.getRol(username);
 
