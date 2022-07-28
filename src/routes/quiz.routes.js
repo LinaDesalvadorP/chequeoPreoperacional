@@ -11,7 +11,7 @@ router.post('/get/solved-in-month', testController.getTotalChecksInMonth)
 router.get('/get/quiz-list', testController.getQuizList)
 router.get('/get-quiz/:quizId', testController.getSolvedQuiz)
 
-router.post('/get/solved-in-month', testController.getTotalChecksInMonth)
+router.get('/solved-in-month', testController.getTotalChecksInMonth)
 router.post('/save', testController.saveQuiz)
 
 
