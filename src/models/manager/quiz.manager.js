@@ -62,7 +62,7 @@ const getTotalChecksInMonth = (year, month) =>{
         let checks = []
         mysql.query("call get_today_total_checks_in_month(?,?);",[year, month],function (err, result) {
             if (err)  return reject(err);
-            result[0].forEach(e =>  checks.push(new RealizedQuiz(e.day, new Date(e.realized))))
+            result[0].forEach(e =>  checks.push(new RealizedQuiz(e.day,e.realized)))
             resolve(checks)
         });
     })
