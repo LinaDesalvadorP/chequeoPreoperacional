@@ -6,6 +6,13 @@ class Section {
     }
 }
 
+class SectionList {
+    constructor(name) {
+        this.name = name
+    }
+}
+
 module.exports= {
     section: Section,
+    sectionList: SectionList
 };

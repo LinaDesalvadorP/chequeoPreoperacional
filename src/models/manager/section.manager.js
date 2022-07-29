@@ -1,6 +1,7 @@
 const mysql = require('../../config/config.database')
 const section = require('../entitys/section.model')
 const Section = section.section
+const SectionList = section.sectionList
 
 
 const getTodaySections = () =>{
@@ -47,6 +48,19 @@ const getQuizSections = (quizId) =>{
 
 exports.getQuizSections = getQuizSections;
 
+const getAllSections = () =>{
+    let sections = []
+    return new Promise(function (resolve, reject) {
+        mysql.query("SELECT name FROM section",function (err, result) {
+            if (err)  return reject(err);
+            console.log(result)
+            result.forEach(e => sections.push(new SectionList(e.name)))
+            resolve(sections)
+        });
+    })
+}
+
+exports.getAllSections = getAllSections;
 
 const fillSectionsWithAnswers = async (sections, questions) =>{
     for(let s of sections){
