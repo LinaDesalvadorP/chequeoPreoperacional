@@ -7,6 +7,7 @@ const question = require('../entitys/question.model')
 const Question = question.question
 const SolvedOpenQuestion = question.solvedOpenQuestion
 const SolvedSelectionQuestion = question.solvedSelectionQuestion
+const QuestionInfo = question.questionInfo
 const recommendation = require('../entitys/recomendation.model')
 const Recommendation = recommendation.recommendation
 
@@ -42,8 +43,7 @@ const getQuestion = (questionId) => {
     return new Promise(function (resolve, reject) {
         mysql.query("SELECT q.id, q.statement, q.type ,q.frecuency, s.name FROM question q inner join section s on s.id = q.id_section where q.id = ?", [questionId],function (err, result) {
           if (err) reject(reject)
-            console.log(result[0].statement)
-            resolve(new Question(result[0].id, result[0].statement, result[0].name, result[0].type, null,null,result[0].frecuency))
+            resolve(new QuestionInfo(result[0].id, result[0].statement, result[0].name, result[0].type, result[0].frecuency))
         });
     })
 }

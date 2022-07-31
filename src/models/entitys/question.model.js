@@ -1,15 +1,25 @@
 class Question {
-    constructor(id, statement, section,type,recommendation, answerOptions, frecuency ) {
+    constructor(id, statement, section,type,recommendation, answerOptions  ) {
         this.id = id
         this.statement = statement
         this.section = section
         this.type = type
         this.recomendation = recommendation
         this.answerOptions = answerOptions
-        this.frecuency = frecuency
     }
 }
 
+class QuestionInfo {
+    constructor(id, statement, section,type,frecuency,recommendation, answerOptions  ) {
+        this.id = id
+        this.statement = statement
+        this.section = section
+        this.type = type
+        this.frecuency = frecuency
+        this.recomendation = recommendation
+        this.answerOptions = answerOptions
+    }
+}
 
 class SolvedOpenQuestion {
     constructor(id,statement, section, type, solvedOpenAnswer) {
@@ -34,7 +44,8 @@ class SolvedSelectionQuestion {
 module.exports= {
     question: Question,
     solvedOpenQuestion: SolvedOpenQuestion,
-    solvedSelectionQuestion: SolvedSelectionQuestion
+    solvedSelectionQuestion: SolvedSelectionQuestion,
+    questionInfo: QuestionInfo
 };
 
 
