@@ -6,7 +6,6 @@ class Question {
         this.type = type
         this.recomendation = recommendation
         this.answerOptions = answerOptions
-
     }
 }
 
