@@ -43,7 +43,7 @@ const getQuestion = (questionId) => {
         mysql.query("SELECT q.id, q.statement, q.type ,q.frecuency, s.name FROM question q inner join section s on s.id = q.id_section where q.id = ?", [questionId],function (err, result) {
           if (err) reject(reject)
             console.log(result[0].statement)
-            resolve(new Question(result[0].id, result[0].statement, result[0].name, result[0].type))
+            resolve(new Question(result[0].id, result[0].statement, result[0].name, result[0].type, null,null,result[0].frecuency))
         });
     })
 }

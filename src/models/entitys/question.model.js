@@ -1,11 +1,12 @@
 class Question {
-    constructor(id, statement, section,type,recommendation, answerOptions ) {
+    constructor(id, statement, section,type,recommendation, answerOptions, frecuency ) {
         this.id = id
         this.statement = statement
         this.section = section
         this.type = type
         this.recomendation = recommendation
         this.answerOptions = answerOptions
+        this.frecuency = frecuency
     }
 }
 
