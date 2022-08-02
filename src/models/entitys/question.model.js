@@ -41,11 +41,21 @@ class SolvedSelectionQuestion {
     }
 }
 
+class QuestionList {
+    constructor(id, statement, type, frecuency) {
+        this.id = id
+        this.statement = statement
+        this.type = type
+        this.frecuency = frecuency
+    }
+}
+
 module.exports= {
     question: Question,
     solvedOpenQuestion: SolvedOpenQuestion,
     solvedSelectionQuestion: SolvedSelectionQuestion,
-    questionInfo: QuestionInfo
+    questionInfo: QuestionInfo,
+    questionList: QuestionList
 };
 
 

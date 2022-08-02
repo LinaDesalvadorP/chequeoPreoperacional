@@ -10,6 +10,7 @@ const SolvedSelectionQuestion = question.solvedSelectionQuestion
 const QuestionInfo = question.questionInfo
 const recommendation = require('../entitys/recomendation.model')
 const Recommendation = recommendation.recommendation
+const QuestionList = question.questionList
 
 const getTodayQuestions = () =>{
     let questions = []
@@ -144,6 +145,18 @@ const getRecommendation = async (questionId) =>{
     })
 }
 exports.getRecommendation = getRecommendation;
+
+const getQuestionList = async () =>{
+    return new Promise(function (resolve, reject) {
+        let questions = []
+        mysql.query("select id, statement, type, frecuency from question",function (err, result) {
+            if (err)  return reject(err);
+            result.forEach(e => questions.push(new QuestionList(e.id,e.statement,e.type,e.frecuency)))
+            resolve(questions)
+        });
+    })
+}
+exports.getQuestionList = getQuestionList;
 
 const fillRecommendation = async (questions) =>{
     for(let q of questions){

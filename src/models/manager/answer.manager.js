@@ -12,3 +12,16 @@ const saveNewOpenAnswer = (statement) =>{
     })
 }
 exports.saveNewOpenAnswer = saveNewOpenAnswer;
+
+const getMAAndSAList = () =>{
+    return new Promise(function (resolve, reject) {
+        let answers = []
+        mysql.query("CALL get_list_of_MA_and_SA_answers()" , function (err, result) {
+            if (err)  return reject(err);
+            result[0].forEach(e => answers.push(new Answer(e.id, e.statement)))
+            resolve(answers)
+        });
+    })
+}
+exports.getMAAndSAList = getMAAndSAList;
+
