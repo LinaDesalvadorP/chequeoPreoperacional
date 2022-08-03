@@ -38,6 +38,13 @@ const getAlerts = async (req, res) => {
 };
 module.exports.getAlerts = [getAlerts];
 
+const solveAlert = async (req, res) => {
+    const {alertId} = req.body;
+    await alerts.resolveAlert(alertId)
+    return res.status(200).json({message: "Alert solved"})
+};
+module.exports.solveAlert = [solveAlert];
+
 
 
 

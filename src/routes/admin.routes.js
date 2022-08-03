@@ -9,6 +9,7 @@ router.get('/get-alerts', adminController.getAlerts)
 
 
 router.post('/add', adminController.add)
+router.post('/solve-alert', adminController.solveAlert)
 
 
 module.exports = router;

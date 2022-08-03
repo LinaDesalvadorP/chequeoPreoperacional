@@ -15,3 +15,13 @@ const getAll = async () =>{
     })
 }
 exports.getAll = getAll;
+
+const resolveAlert = async (alertId) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("UPDATE vehicle_alert SET is_solved = 1 WHERE id = ?;", [alertId],function (err, result) {
+            if (err)  return reject(err);
+            resolve("Alert solved")
+        });
+    })
+}
+exports.resolveAlert = resolveAlert;
