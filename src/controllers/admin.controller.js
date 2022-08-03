@@ -1,4 +1,5 @@
 const admins = require('../models/manager/admin.manager');
+const alerts = require('../models/manager/alert.manager')
 
 const getAdmin = async(req, res) =>{
     const  username  = req.params.username;
@@ -25,10 +26,18 @@ const add = async (req, res) => {
 module.exports.add = [add];
 
 
-const get_all = async (req, res) => {
+const getAll = async (req, res) => {
     const adminsList = await admins.getAll()
     return res.status(200).json(adminsList)
 };
-module.exports.get_all = [get_all];
+module.exports.getAll = [getAll];
+
+const getAlerts = async (req, res) => {
+    const alertList = await alerts.getAll()
+    return res.status(200).json(alertList)
+};
+module.exports.getAlerts = [getAlerts];
+
+
 
 

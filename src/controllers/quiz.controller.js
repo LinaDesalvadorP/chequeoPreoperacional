@@ -47,8 +47,8 @@ const saveQuiz = async (req, res) => {
       }
       switch (await questions.getQuestionType(answer.idQuestion)){
          case 'MA':
-            for (let selectedAnswers of answer.respuesta)
-               await quiz.saveQuizSolved(quizId, answer.idQuestion, selectedAnswers)
+            for (let selectedAnswer of answer.respuesta)
+               await quiz.saveQuizSolved(quizId, answer.idQuestion, selectedAnswer)
             break
          case 'SA':
                await quiz.saveQuizSolved(quizId, answer.idQuestion, answer.respuesta)

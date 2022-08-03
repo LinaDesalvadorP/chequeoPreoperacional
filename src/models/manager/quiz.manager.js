@@ -3,6 +3,7 @@ const quiz = require('../entitys/quiz.model')
 const QuizListFormat = quiz.quizListFormat
 const Quiz = quiz.quiz
 const RealizedQuiz = quiz.realizedQuiz
+const dateFormat = require('date-and-time')
 
 const createQuiz = (licensePlate) =>{
     return new Promise(function (resolve, reject) {
@@ -40,7 +41,7 @@ const getQuizList = () =>{
     return new Promise(function (resolve, reject) {
         mysql.query("SELECT * FROM quiz_list",function (err, result) {
             if (err)  return reject(err);
-            result.forEach(e => quizList.push(new QuizListFormat(e.id,e.movil, e.name, e.license_plate, e.presentation)))
+            result.forEach(e => quizList.push(new QuizListFormat(e.id,e.movil, e.name, e.license_plate, dateFormat.format(e.presentation, 'YYYY-MM-DD'))))
             resolve(quizList)
         });
     })
