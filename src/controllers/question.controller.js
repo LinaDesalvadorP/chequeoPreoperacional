@@ -30,13 +30,12 @@ const addQuestion = async (req, res) =>{
     const {section, statementQuestion, frecuency, answerType,alerts,totalOptions, recomendations} = req.body
     const questionId = await questions.addNewQuestion(section, answerType ,statementQuestion, frecuency)
 
+    console.log(questionId)
+
 
     if(answerType === 'SA' || answerType === 'MA'){
         for (let option of totalOptions){
             const answerId = await answers.saveNewAnswer(option.option)
-            if (option.alert === true){
-
-            }
         }
     }
 

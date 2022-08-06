@@ -68,7 +68,7 @@ const addMultipleOptionALert = async (question_id, statement,answerCondition) =>
 }
 exports.addMultipleOptionALert = addMultipleOptionALert;
 
-const addAlert = async (question_id, alerts, questionType) =>{
+const addAlert = async (questionId, alerts, questionType) =>{
     if (alerts !== undefined) {
         switch (questionType) {
             case 'N':
