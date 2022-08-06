@@ -43,19 +43,20 @@ const addQuestion = async (req, res) =>{
             await  questions.addNewRecomendationQuestion(questionId, recomendationId)
         }
     }
+    if (alerts !== undefined) {
+        switch (answerType) {
+            case 'N':
+                await alertsM.addNumericAlert(questionId, alerts.maxAlertMessage, alerts.max)
+                break
+            case 'D':
+                await alertsM.addDateAlert(questionId, alerts.minAlertMessage, alerts.minDate)
+                break
+            case 'S':
+                await alertsM.addSliderAlert(questionId, alerts.minAlertMessage, alerts.min)
+                break
 
-    switch (answerType){
-        case 'N':
-             await alertsM.addNumericAlert(questionId,alerts.maxAlertMessage,alerts.max)
-            break
-        case 'D':
-            await alertsM.addDateAlert(questionId,alerts.minAlertMessage,alerts.minDate)
-            break
-        case 'S':
-            await alertsM.addSliderAlert(questionId,alerts.minAlertMessage,alerts.min)
-            break
-        case
+        }
     }
-
+    res.status(200).send({message: "Pregunta agregada" })
 }
 module.exports.addQuestion = [addQuestion];
