@@ -90,7 +90,7 @@ class Taxis extends Component {
 
   saveTaxi(){
     var dataUserTaxi = {
-      idRol: 4,
+      idRol: 14,
       username: this.state.form.licensePlate,
       password: this.state.form.password
     };
@@ -106,7 +106,7 @@ class Taxis extends Component {
     axios.post(API_POST_USER, dataUserTaxi)
     .then((response) => {
       // console.log(response)
-        axios.post(API_ADD_TAXI)
+        axios.post(API_ADD_TAXI, dataTaxi)
         .then((response)=>{
           console.log(response)
           this.modalInsertar();
@@ -128,7 +128,7 @@ class Taxis extends Component {
           <h2 style={{ textAlign: "center" }}>Taxis afiliados</h2>
           <br />
           <button
-            className="btn btn-primary"
+            className="btn btn-success"
             onClick={() => {
               // this.setState({ form: null, tipoModal: "insertar" });
               this.modalValidateOwner();

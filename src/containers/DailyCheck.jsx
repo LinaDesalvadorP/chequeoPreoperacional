@@ -3,12 +3,16 @@ import Accordion from "react-bootstrap/Accordion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../styles/DailyCheck.module.scss";
 import moment from "moment";
-import {useNavigate} from "react-router-dom";
-import axios from 'axios';
-import Login from './../containers/Login';
-import HeaderUser from './../components/HeaderUser';
+import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Login from "./../containers/Login";
+import HeaderUser from "./../components/HeaderUser";
+import { FaInfoCircle, FaSlidersH, FaThumbsUp } from "react-icons/fa";
+import SliderComponent from "../components/SliderComponent";
 
-const API = "http://localhost:5000/api/quiz/get/today-quiz";
+const API_DAILY_QUIZ = "http://localhost:5000/api/quiz/get/today-quiz";
+const API_INITIAL_QUIZ = "http://localhost:5000/api/quiz/get/initial-quiz";
 const SAVE_CHECK_API = "http://localhost:5000/api/quiz/save";
 
 const DailyCheck = () => {
@@ -31,20 +35,13 @@ const DailyCheck = () => {
           ></input>
         );
       case "S":
-        return (
-          <input
-            name={itemName}
-            type="range"
-            className="mb-4 form-range"
-            id="customRange1"
-          />
-        );
+        return <SliderComponent name={itemName} className="mb-4 form-range" />;
       case "SA":
         return (
           <div className="mb-3 col-sm-12 col-lg-8 px-4">
             <div className="row">
               {respuestas?.map((itemRespuesta, index) => (
-                <div key={index} className="form-check col-lg-4  col-sm-12">
+                <div key={index} className="form-check col-lg-12  col-sm-12">
                   <input
                     className="form-check-input ml-4"
                     value={itemRespuesta.id}
@@ -78,38 +75,37 @@ const DailyCheck = () => {
             name={itemName}
             type="date"
             className="mb-4 form-control answer-1"
-            
           ></input>
         );
       case "MA":
-        respuestasCheckBox = new Array(Object.keys(respuestas).length).fill(
-          false
-        );
-        return (
-          <div className="mb-3 col-sm-12 col-lg-8 px-4">
-            <div className="row">
-              {respuestas?.map((itemRespuesta, index) => (
-                <div key={index} className="form-check col-lg-4  col-sm-12">
-                  <input
-                    className="form-check-input ml-4"
-                    value={itemRespuesta.id}
-                    type="checkbox"
-                    name={itemName}
-                    onSubmit={handleSubmit}
-                    onChange={() => handleOnChange(index)}
-                    id="flexRadioDefault1"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexRadioDefault1"
-                  >
-                    {itemRespuesta.statement}
-                  </label>
-                </div>
-              ))}
-            </div>
+      respuestasCheckBox = new Array(Object.keys(respuestas).length).fill(
+        false
+      );
+      return (
+        <div className="mb-3 col-sm-12 col-lg-8 px-4">
+          <div className="row">
+            {respuestas?.map((itemRespuesta, index) => (
+              <div key={index} className="form-check col-lg-4  col-sm-12">
+                <input
+                  className="form-check-input ml-4"
+                  value={itemRespuesta.id}
+                  type="checkbox"
+                  name={itemName}
+                  onSubmit={handleSubmit}
+                  onChange={() => handleOnChange(index)}
+                  id="flexRadioDefault1"
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor="flexRadioDefault1"
+                >
+                  {itemRespuesta.statement}
+                </label>
+              </div>
+            ))}
           </div>
-        );
+        </div>
+      );
       default:
         return <h1>No match</h1>;
     }
@@ -131,8 +127,8 @@ const DailyCheck = () => {
    * Obtiene las respuestas del fomulario
    */
   const form = useRef(null);
-  
   const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(form.current);
@@ -147,12 +143,14 @@ const DailyCheck = () => {
             }
           });
           respuestas.push({
-            "idQuestion": itemQuestion.id,
+            idQuestion: itemQuestion.id,
             respuesta: respuestasSeleccionadas,
-          });
+          // console.log("check: " + JSON.stringify(selected));
+          }
+          );
         } else {
           respuestas.push({
-            "idQuestion": itemQuestion.id,
+            idQuestion: itemQuestion.id,
             respuesta: formData.get(itemQuestion.id),
           });
         }
@@ -163,9 +161,9 @@ const DailyCheck = () => {
     chequeoResuelto.push(respuestas);
     console.log(chequeoResuelto);
 
-    axios.post(SAVE_CHECK_API, chequeoResuelto).then((response) =>{
-      navigate('/successful-registration');
-    })
+    axios.post(SAVE_CHECK_API, chequeoResuelto).then((response) => {
+      navigate("/successful-registration");
+    });
   };
 
   /*
@@ -174,9 +172,13 @@ const DailyCheck = () => {
   const [questions, setQuestions] = useState([]);
   useEffect(() => {
     async function fetchQuestion() {
-      const response = await fetch(API);
+      const response = await fetch(
+        localStorage.getItem("typeQuiz") === "Initial quiz"
+          ? API_INITIAL_QUIZ
+          : API_DAILY_QUIZ
+      );
       const json = await response.json();
-      // console.log("**"+JSON.stringify(json));
+      console.log(json);
       setQuestions(json);
     }
     fetchQuestion();
@@ -185,68 +187,118 @@ const DailyCheck = () => {
   /*
    * Formulario del chequeo
    */
-  const renderChequeo = () =>{
+  const renderChequeo = () => {
     return (
-    <>
-      <HeaderUser />
-      <div className="row m-1 justify-content-center">
-        <div className="row py-4 title text-center">
-          <span className="fs-2 fw-bold"> Chequeo preoperacional</span>
-          <small>{moment().format("DD-MMM-YYYY hh:mm:ss")}</small>
-          <span className="fs-7">Placa: {localStorage.getItem("user")}</span>
-        </div>
+      <>
+        <HeaderUser />
+        <div className="row m-1 justify-content-center">
+          <div className="row py-4 title text-center">
+            <span className="fs-2 fw-bold"> Chequeo preoperacional</span>
+            <small>{moment().format("DD-MMM-YYYY hh:mm:ss")}</small>
+            <span className="fs-7">Placa: {localStorage.getItem("user")}</span>
+          </div>
 
-        <div className="col-lg-8">
-          <form action="/" ref={form}>
-            {questions?.map((item, index) => (
-              <Accordion
-                key={index}
-                defaultActiveKey="1"
-                id="accordionPanelsStayOpenExample"
-              >
-                <Accordion.Item eventKey="0" className="mb-3">
-                  <Accordion.Header className={styles.headerSection}>
-                    <img
-                      id={styles.imgSection}
-                      src={require(`../images/${item?.path}.png`).default}
-                    />
-                    {item.name}
-                  </Accordion.Header>
-                  <Accordion.Body>
-                    <div>
-                      {item.questions.map((pregunta, indexPreg) => (
-                        <div key={indexPreg} className="contenedorPregunta">
-                          <div>{pregunta.statement}</div>
-                          {findTipo(
-                            pregunta.id,
-                            pregunta.type,
-                            JSON.stringify(pregunta.answerOptions)
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-            ))}
-          </form>
+          <div className="col-lg-8">
+            <form action="/" ref={form}>
+              {questions?.map((item, index) => (
+                <Accordion
+                  key={index}
+                  defaultActiveKey="1"
+                  id="accordionPanelsStayOpenExample"
+                >
+                  <Accordion.Item eventKey="0" className="mb-3">
+                    <Accordion.Header className={styles.headerSection}>
+                      <img
+                        id={styles.imgSection}
+                        src={require(`../images/${item?.path}.png`).default}
+                      />
+                      {item.name}
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <div>
+                        {item.questions.map((pregunta, indexPreg) => (
+                          <div key={indexPreg} className="contenedorPregunta">
+                            <div className="col-lg-12  col-sm-12">
+                              {pregunta.statement}
+                            </div>
+
+                            {/* Información o recomendacion */}
+                            {pregunta.recommendation.type === "R" ? (
+                              <div className="col-sm-12 col-lg-12 order-lg-2 order-sm-0 alert alert-warning border-2 rounded-3 mb-3">
+                                <div className="row align-items-center justify-content-center  pt-1 pb-1 information-msg">
+                                  <div className="col-3">
+                                    <div className="text-center">
+                                      <FaInfoCircle
+                                        className="info-img img-fluid  center-block align-middle"
+                                        style={{
+                                          color: "#ffc107",
+                                          fontSize: "40px",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-9">
+                                    <span>Información</span>
+                                    <br></br>
+                                    <small>
+                                      {pregunta.recommendation.statement}
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="col-sm-12 col-lg-12 order-lg-2 order-sm-0 recomendation alert alert-primary border-2 rounded-3 mb-3">
+                                <div className="row align-items-center justify-content-center  pt-1 pb-1 information-msg">
+                                  <div className="col-3">
+                                    <div className="text-center">
+                                      <FaThumbsUp
+                                        className="info-img img-fluid  center-block align-middle"
+                                        style={{
+                                          color: "#0d6efd",
+                                          fontSize: "40px",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-9">
+                                    <span className="font-weight-bold">
+                                      Recomendación
+                                    </span>
+                                    <br></br>
+                                    <small>
+                                      {pregunta.recommendation.statement}
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                            {/* Tipo de respuesta */}
+                            {findTipo(
+                              pregunta.id,
+                              pregunta.type,
+                              JSON.stringify(pregunta.answerOptions)
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              ))}
+            </form>
+          </div>
+          <div className={styles.submitBtn}>
+            <button onClick={handleSubmit}>Guardar</button>
+          </div>
         </div>
-        <div className={styles.submitBtn}>
-          <button onClick={handleSubmit}>Guardar</button>
-        </div>
-      </div>
       </>
-    )
-  }
+    );
+  };
 
   return (
-    <>
-      { localStorage.getItem("auth") == "yes"
-        ? renderChequeo()
-        : <Login />
-      }
-      
-    </>
+    <>{localStorage.getItem("auth") == "yes" ? renderChequeo() : <Login />}</>
   );
 };
 

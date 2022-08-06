@@ -18,7 +18,6 @@ const CreateVehicle = () => {
         const formData = new FormData(form.current);
         const dataUser = {idRol: 14, username: formData.get('placa'), password: formData.get('contrasena')}
         const dataCar = {licensePlate: formData.get('placa'), cc: formData.get('cedula'), movil: formData.get('movil'), model: formData.get('modelo'), brand: formData.get('marca')}
-        console.log(formData.get('cedula'))
         axios.post(verifyUserRoute, dataUser)
             .then((response) =>{
                 axios.post(addVehicleRoute, dataCar).then((res) =>{
@@ -26,6 +25,7 @@ const CreateVehicle = () => {
                 })
             })
     }
+
   return (
     <>
       <NavBar />

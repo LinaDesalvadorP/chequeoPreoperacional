@@ -27,7 +27,6 @@ class CreateAdmin extends Component {
     axios
       .get(API_GET_ADMINS)
       .then((response) => {
-        console.log(response.data);
         this.setState({ data: response.data });
       })
       .catch((error) => {

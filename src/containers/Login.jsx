@@ -4,7 +4,7 @@ import logo from "../../public/assets/images/main_logo_yellow.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const API = "http://localhost:5000/api/user/login";
-const API_VALIDATE_TYPE_DAILY_CHECK = "http://localhost:5000/api/quiz/get";
+const API_VALIDATE_TYPE_DAILY_CHECK = "http://localhost:5000/api/quiz/get/quiz-type/";
 
 const login = () => {
   localStorage.setItem("auth", "no");
@@ -26,23 +26,19 @@ const login = () => {
       .then((response) => {
         localStorage.setItem("auth", "yes");
         localStorage.setItem("user", formData.get("usuario"));
-        console.log(response.data.rol);
         if (response.data.rol === "administator") {
           navigate("/dashboard");
         } else if (response.data.rol === "driver") {
-          console.log(formData.get("usuario"));
-          const license = {licensePlate: formData.get("usuario")}
-          console.log(license)
           axios
-            .get(API_VALIDATE_TYPE_DAILY_CHECK, license)
+            .get(API_VALIDATE_TYPE_DAILY_CHECK + formData.get("usuario"))
             .then((response) => {
-              console.log(response.data.message);
-              // response.data.type ==='Initial quiz'
-              // ? navigate('/welcome')
-              // : navigate('/daily-check')
+              response.data.message === "Initial quiz"
+                ? navigate("/welcome")  
+                : navigate("/daily-check");
+                localStorage.setItem("typeQuiz", response.data.message);
             })
             .catch((error) => {
-                console.log("error: "+error.response.data.message);
+              console.log(error.response.data.message);
             });
         }
       })
@@ -80,7 +76,7 @@ const login = () => {
                 className={styles.input}
                 name="usuario"
                 placeholder=" "
-                id=""
+                id="usuario"
               />
               <label htmlFor="usuario" className={styles.label}>
                 Usuario
@@ -92,7 +88,7 @@ const login = () => {
                 className={styles.input}
                 name="contrasena"
                 placeholder=" "
-                id=""
+                id="contrasena"
               />
               <label htmlFor="contrasena" className={styles.label}>
                 Contraseña

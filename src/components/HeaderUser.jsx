@@ -2,6 +2,7 @@ import React from 'react';
 import logo from "../../public/assets/images/main_logo_yellow.png";
 import styles from "../styles/HeaderUser.module.scss"
 import {useNavigate} from "react-router-dom";    
+import * as FaIcons from 'react-icons/fa';
 
 const HeaderUser = () => {
     const navigate = useNavigate();
@@ -21,7 +22,12 @@ const HeaderUser = () => {
               <br></br>
           </div>
           <div className={styles.logout}>
-              <button className='btn btn-danger' onClick={logout}>Cerrar sesión</button>
+              {/* {
+                window.innerWidth > 370 ?*/}
+                <button className='btn btn-danger' onClick={logout}>Cerrar sesión</button>
+                {/* :<button className='btn btn-danger' onClick={logout}><FaIcons.FaArrowCircleRight/></button>
+              }               */}
+              
           </div>
       </div>
     );

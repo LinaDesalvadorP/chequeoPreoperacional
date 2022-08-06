@@ -28,6 +28,12 @@ export const SideBar = [
         cName: 'nav-text'
     },
     {
+        title: 'Preguntas',
+        path: '/questions',
+        icon: <MdIcons.MdHelp/>,
+        cName: 'nav-text'
+    },
+    {
         title: 'Chequeos',
         path: '/checks',
         icon: <FaIcons.FaRegListAlt />,

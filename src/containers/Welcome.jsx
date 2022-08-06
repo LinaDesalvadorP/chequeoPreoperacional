@@ -19,6 +19,7 @@ const Welcome = () => {
             </div>
             <div className={style.leftPanel}>
                 <img src={carImage} alt="imagen de taxi" />
+                {/* <small>{localStorage.getItem("user")}</small> */}
             </div>
             <div className={style.rightPanel}>
                     <h4>El chequeo pre-operacional hace parte del Plan Estratégico de Seguridad Vial (PESV). La inspección visual del vehículo debe realizarse de manera consciente, evaluando cada elemento que pueda poner en riesgo la seguridad del conductor y sus ocupantes. Es importante, en la medida de lo posible, que estas inspecciones las realice un inspector o una persona que conozca el vehículo, es decir, sus elementos de seguridad activa y pasiva que lo componen.</h4>

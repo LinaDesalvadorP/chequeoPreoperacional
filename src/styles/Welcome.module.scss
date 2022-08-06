@@ -32,9 +32,41 @@
 
 .rightPanel h4 {
   text-align: justify;
-  margin-bottom: 10vh;
+  margin-bottom: 5vh;
 }
 
 .rightPanel button{
   background-color: var(--sky-blue);
+}
+
+@media (max-width:912px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    margin: 3vw 3vw;
+  }
+  .leftPanel img{
+    width: 35vw;
+  }
+}
+
+@media (max-width:640px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    margin: 3vh 3vw;
+  }
+  
+  .leftPanel img{
+    width: 35vw;
+  }
+
+  .rightPanel {
+    align-self: center;
+    margin: 0vh 5vw;
+  }
+
+  .rightPanel h4{
+    font-size: 15px;
+  }
 }

@@ -5,6 +5,7 @@ import { Modal, Button } from "react-bootstrap";
 import AccordionAnswered from "./AccordionAnswered"
 
 const API = "http://localhost:5000/api/quiz/get/quiz-list";
+const API_GET_SECTIONS = "http://localhost:5000/api/section/get-all";
 
 const ChecksTable = () => {
   const [modalInfo, setModalInfo] = useState([]);
@@ -19,7 +20,6 @@ const ChecksTable = () => {
     async function fetchQuestion() {
       const response = await fetch(API);
       const json = await response.json();
-      console.log("**"+JSON.stringify(json));
       setQuestions(json);
     }
     fetchQuestion();

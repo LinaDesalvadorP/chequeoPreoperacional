@@ -1,60 +1,65 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./../styles/Notifications.module.scss";
-import * as FaIcons from 'react-icons/fa';
+import * as FaIcons from "react-icons/fa";
 import { getPastelColor } from "pastel-color";
+import axios from "axios";
+
+const API_GET_NOTIFICATIONS = "http://localhost:5000/api/admin/get-alerts";
+const API_POST_SOLVED_NOTIFICATION =
+  "http://localhost:5000/api/admin/solve-alert";
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState([
-    { movil: "156", alert: "El movil 156 tiene bajo liquido de frenos", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 396 tiene el labrado de las llantas por debajo del indicado", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-    { movil: "156", alert: "El movil 128 drfghj tgyhj ftghj ghjk ", alertDate: "11 jun 2022",isCheckNotification: "false" },
-  ]);
+  const [notifications, setNotifications] = useState([]);
 
-  const deleteNotification = () => {
-    console.log("delete");
-  }
+  useEffect(() => {
+    async function fetchNotifications() {
+      const response = await fetch(API_GET_NOTIFICATIONS);
+      const json = await response.json();
+      setNotifications(json);
+    }
+    fetchNotifications();
+  }, [setNotifications]);
+
+  const deleteNotification = (id) => {
+    axios
+      .post(API_POST_SOLVED_NOTIFICATION, { alertId: id })
+      .then((response) => {
+        axios.get(API_GET_NOTIFICATIONS)
+        .then(response => {
+            setNotifications(response.data)
+        })
+        .catch(e => {
+            console.log(e.message)
+        })
+      });
+  };
 
   return (
     <>
       <div className={styles["item-list"]}>
         {notifications.map((item, index) => (
-          <div className={styles["item-container"]}>
-            <div style={{backgroundColor: getPastelColor().hex}} className={styles["item-movil"]}>
+          <div key={index} className={styles.container}>
+            <div className={styles.movil}>
+              <div
+                style={{ backgroundColor: getPastelColor().hex }}
+                className={styles.movilCircle}
+              >
                 {item.movil}
-              {/* {item.isCheckNotification ? (
-                <>
-                  <FontAwesomeIcon icon={faCheckCircle} />
-                  <span className="completed">{item.itemName}</span>
-                </>
-              ) : (
-                <>
-                  <FontAwesomeIcon icon={faCircle} />
-                  <span>{item.itemName}</span>
-                </>
-              )} */}
+              </div>
             </div>
-            <div className="item-content-alert">
-                {item.alert}
-                {item.alertDate}
+            <div className={styles.statement}>
+              {item.statement}
+              <br />
+              <small>{item.data_alert}</small>
             </div>
-            <div className={styles["item-alert"]}>
-            <FaIcons.FaTrash onClick={deleteNotification} />
-                {/* <span> {item.quantity} </span>
-              <button>
-                <FontAwesomeIcon icon={faChevronRight} />
-              </button>
-              <button>
-                <FontAwesomeIcon icon={faChevronLeft} />
-              </button> */}
-              
+            <div className={styles.checkBtnContainer}>
+              <FaIcons.FaCheckSquare
+                className={styles.checkBtn}
+                size="25px"
+                onClick={() => {
+                  deleteNotification(item.id);
+                }}
+              />
             </div>
           </div>
         ))}

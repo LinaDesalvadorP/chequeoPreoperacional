@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,9 +24,6 @@ ChartJS.register(
   Filler
 );
 
-const scores = [6, 5, 5, 5, 3, 4, 6, 4, 5, 6, 5, 5, 5, 3, 4, 6, 4, 5, 8, 7];
-const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,15,16,17,18,19,20];
-
 const options = {
   fill: true,
   responsive: true,
@@ -40,32 +38,43 @@ const options = {
     },
   },
 };
+const API_POST_SOLVED_IN_MONTH = "http://localhost:5000/api/quiz/get/solved-in-month";
 
-export default function LineChart() {
+const LineChart = ({monthIn, yearIn}) => {
+  console.log(monthIn.number + " : " + yearIn)
+  // Carga de los días del mes 
+  const days = new Array(new Date(parseInt(yearIn), parseInt(monthIn.number), 0).getDate());
+  for (let i = 0; i < days.length; i++) {
+    days[i] = i+1;
+  }
+  const labels = days
+  // Carga de los datos diarios desde el backend
+  const scores2 = new Array(days.length);
+  scores2.fill(0,0);
+  axios.post(API_POST_SOLVED_IN_MONTH, { year: yearIn, month: monthIn.number}).then((response) => {
+      const checkedDays = response.data;
+      console.log(response.data)
+      for (const key in checkedDays) {
+        scores2[checkedDays[key].day] = checkedDays[key].realized
+      }
+  });
   const data = useMemo(function () {
     return {
       datasets: [
         {
           label: "Chequeos realizados",
-          data: scores,
+          data: scores2,
           tension: 0.3,
           borderColor: "rgb(75, 192, 192)",
           pointRadius: 6,
           pointBackgroundColor: "rgb(75, 192, 192)",
           backgroundColor: "rgba(75, 192, 192, 0.3)",
         },
-        // {
-        //   label: "Mis datos (2)",
-        //   tension: 0.3,
-        //   data: scores2,
-        //   borderColor: "green",
-        //   backgroundColor: "rgba(0, 255, 0, 0.3)",
-        //   pointRadius: 6,
-        // },
       ],
       labels,
     };
   }, []);
-
   return <Line data={data} options={options} />;
-}
+};
+
+export default LineChart;
