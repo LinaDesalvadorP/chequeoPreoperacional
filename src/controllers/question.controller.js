@@ -29,15 +29,18 @@ module.exports.getMAAndSAList = [getMAAndSAList];
 const addQuestion = async (req, res) =>{
     const {section, statementQuestion, frecuency, answerType,alerts,totalOptions, recomendations} = req.body
     const questionId = await questions.addNewQuestion(section, answerType ,statementQuestion, frecuency)
-    const answersId = []
+
 
     if(answerType === 'SA' || answerType === 'MA'){
         for (let option of totalOptions){
             const answerId = await answers.saveNewAnswer(option.option)
-            answersId.push(await questions.saveQuestionAnswer(questionId,answerId))
+            if (option.alert === true){
 
+            }
         }
     }
+
+     await  alertsM.addAlert(questionId, alerts, answerType)
 
     if (recomendations !== undefined){
         for (let recomendation of recomendations){
@@ -45,6 +48,7 @@ const addQuestion = async (req, res) =>{
             await  questions.addNewRecomendationQuestion(questionId, recomendationId)
         }
     }
+
     res.status(200).send({message: "Pregunta agregada" })
 }
 module.exports.addQuestion = [addQuestion];

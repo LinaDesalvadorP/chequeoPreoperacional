@@ -54,7 +54,7 @@ const getAllSections = () =>{
         mysql.query("SELECT id, name FROM section",function (err, result) {
             if (err)  return reject(err);
             console.log(result)
-            result.forEach(e => sections.push(new SectionList(e.name)))
+            result.forEach(e => sections.push(new SectionList(e.id,e.name)))
             resolve(sections)
         });
     })

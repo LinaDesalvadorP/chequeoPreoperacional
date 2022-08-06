@@ -80,10 +80,6 @@ const addAlert = async (question_id, alerts, questionType) =>{
             case 'S':
                 await addSliderAlert(questionId, alerts.minAlertMessage, alerts.min)
                 break
-            case 'MA':
-            case 'SA':
-
-                break
         }
     }
 }
