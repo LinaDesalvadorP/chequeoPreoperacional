@@ -179,7 +179,7 @@ exports.addNewQuestion = addNewQuestion;
 
 const addNewRecomendationQuestion = async (questionId, recomendationId) =>{
     return new Promise(function (resolve, reject) {
-        mysql.query("INSERT INTO recomendation_question (questionId, recomendationId) VALUES (?,?)", [questionId, recomendationId] ,function (err, result) {
+        mysql.query("INSERT INTO recomendation_question (question_id, recomendation_id) VALUES (?,?)", [questionId, recomendationId] ,function (err, result) {
             if (err)  return reject(err);
             resolve(result.insertId)
         });
