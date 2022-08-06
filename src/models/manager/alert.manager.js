@@ -32,7 +32,7 @@ const addNumericAlert = async (question_id, statement,numberCondition) =>{
     return new Promise(function (resolve, reject) {
         mysql.query("INSERT INTO ALERT(question_id, statement,number_condition) values(?,?,?)", [question_id, statement,numberCondition],function (err, result) {
             if (err)  return reject(err);
-            resolve(resolve.insertId)
+            resolve(result.insertId)
         });
     })
 }
@@ -42,7 +42,7 @@ const addDateAlert = async (question_id, statement,dateCondition) =>{
     return new Promise(function (resolve, reject) {
         mysql.query("INSERT INTO ALERT(question_id, statement,days_condition) values(?,?,?)", [question_id, statement,dateCondition],function (err, result) {
             if (err)  return reject(err);
-            resolve(resolve.insertId)
+            resolve(result.insertId)
         });
     })
 }
@@ -52,8 +52,39 @@ const addSliderAlert = async (question_id, statement,rankCondition) =>{
     return new Promise(function (resolve, reject) {
         mysql.query("INSERT INTO ALERT(question_id, statement,rank_condition) values(?,?,?)", [question_id, statement,rankCondition],function (err, result) {
             if (err)  return reject(err);
-            resolve(resolve.insertId)
+            resolve(result.insertId)
         });
     })
 }
 exports.addSliderAlert = addSliderAlert;
+
+const addMultipleOptionALert = async (question_id, statement,answerCondition) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("INSERT INTO ALERT(question_id, statement,answer_condition) values(?,?,?)", [question_id, statement,answerCondition],function (err, result) {
+            if (err)  return reject(err);
+            resolve(result.insertId)
+        });
+    })
+}
+exports.addMultipleOptionALert = addMultipleOptionALert;
+
+const addAlert = async (question_id, alerts, questionType) =>{
+    if (alerts !== undefined) {
+        switch (questionType) {
+            case 'N':
+                await addNumericAlert(questionId, alerts.maxAlertMessage, alerts.max)
+                break
+            case 'D':
+                await addDateAlert(questionId, alerts.minAlertMessage, alerts.minDate)
+                break
+            case 'S':
+                await addSliderAlert(questionId, alerts.minAlertMessage, alerts.min)
+                break
+            case 'MA':
+            case 'SA':
+
+                break
+        }
+    }
+}
+exports.addAlert = addAlert;

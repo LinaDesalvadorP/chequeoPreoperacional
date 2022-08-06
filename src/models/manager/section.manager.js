@@ -51,7 +51,7 @@ exports.getQuizSections = getQuizSections;
 const getAllSections = () =>{
     let sections = []
     return new Promise(function (resolve, reject) {
-        mysql.query("SELECT name FROM section",function (err, result) {
+        mysql.query("SELECT id, name FROM section",function (err, result) {
             if (err)  return reject(err);
             console.log(result)
             result.forEach(e => sections.push(new SectionList(e.name)))
