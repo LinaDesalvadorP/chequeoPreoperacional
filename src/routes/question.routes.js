@@ -7,4 +7,6 @@ router.get('/get/:id', questionController.getQuestion)
 router.get('/get-all', questionController.getAll)
 router.get('/get-answers-list', questionController.getMAAndSAList)
 
+router.post('/add', questionController.addQuestion)
+
 module.exports = router;

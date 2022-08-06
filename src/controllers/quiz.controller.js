@@ -43,7 +43,7 @@ const saveQuiz = async (req, res) => {
 
    for (let answer of quizAnswers){
       if (await questions.getQuestionType(answer.idQuestion) !== 'SA' && await questions.getQuestionType(answer.idQuestion) !== 'MA'){
-           answer.respuesta = await answers.saveNewOpenAnswer(answer.respuesta)
+           answer.respuesta = await answers.saveNewAnswer(answer.respuesta)
       }
       switch (await questions.getQuestionType(answer.idQuestion)){
          case 'MA':
@@ -57,7 +57,7 @@ const saveQuiz = async (req, res) => {
          case 'D':
          case 'S':
          case 'N':
-               await questions.saveQuestionSolved(answer.idQuestion, answer.respuesta)
+               await questions.saveQuestionAnswer(answer.idQuestion, answer.respuesta)
                await quiz.saveQuizSolved(quizId,answer.idQuestion,answer.respuesta)
             break
       }

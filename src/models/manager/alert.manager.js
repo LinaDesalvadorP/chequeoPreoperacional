@@ -25,3 +25,35 @@ const resolveAlert = async (alertId) =>{
     })
 }
 exports.resolveAlert = resolveAlert;
+
+
+
+const addNumericAlert = async (question_id, statement,numberCondition) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("INSERT INTO ALERT(question_id, statement,number_condition) values(?,?,?)", [question_id, statement,numberCondition],function (err, result) {
+            if (err)  return reject(err);
+            resolve(resolve.insertId)
+        });
+    })
+}
+exports.addNumericAlert = addNumericAlert;
+
+const addDateAlert = async (question_id, statement,dateCondition) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("INSERT INTO ALERT(question_id, statement,days_condition) values(?,?,?)", [question_id, statement,dateCondition],function (err, result) {
+            if (err)  return reject(err);
+            resolve(resolve.insertId)
+        });
+    })
+}
+exports.addDateAlert = addDateAlert;
+
+const addSliderAlert = async (question_id, statement,rankCondition) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("INSERT INTO ALERT(question_id, statement,rank_condition) values(?,?,?)", [question_id, statement,rankCondition],function (err, result) {
+            if (err)  return reject(err);
+            resolve(resolve.insertId)
+        });
+    })
+}
+exports.addSliderAlert = addSliderAlert;

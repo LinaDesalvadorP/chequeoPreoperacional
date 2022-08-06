@@ -3,7 +3,7 @@ const answer = require('../entitys/answer.model')
 const Answer = answer.answer
 
 
-const saveNewOpenAnswer = (statement) =>{
+const saveNewAnswer = (statement) =>{
     return new Promise(function (resolve, reject) {
         mysql.query("INSERT INTO answer (statement) VALUES (?)", statement, function (err, result) {
             if (err)  return reject(err);
@@ -11,7 +11,7 @@ const saveNewOpenAnswer = (statement) =>{
         });
     })
 }
-exports.saveNewOpenAnswer = saveNewOpenAnswer;
+exports.saveNewAnswer = saveNewAnswer;
 
 const getMAAndSAList = () =>{
     return new Promise(function (resolve, reject) {

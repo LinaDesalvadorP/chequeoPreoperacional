@@ -1,5 +1,7 @@
 const questions = require('../models/manager/question.manager')
 const answers = require('../models/manager/answer.manager')
+const recomendationManager = require('../models/manager/recomendation.manager')
+const alertsM = require('../models/manager/alert.manager')
 
 
 const getQuestion = async (req, res) =>{
@@ -25,5 +27,35 @@ const getMAAndSAList = async (req, res) =>{
 module.exports.getMAAndSAList = [getMAAndSAList];
 
 const addQuestion = async (req, res) =>{
+    const {section, statementQuestion, frecuency, answerType,alerts,totalOptions, recomendations} = req.body
+    const questionId = await questions.addNewQuestion(section, answerType ,statementQuestion, frecuency)
+
+    if(answerType === 'SA' || answerType === 'MA'){
+        for (let option of totalOptions){
+            const answerId = await answers.saveNewAnswer(option.option)
+            await questions.saveQuestionAnswer(questionId,answerId)
+        }
+    }
+
+    if (recomendations !== undefined){
+        for (let recomendation of recomendations){
+           const recomendationId =  await recomendationManager.saveNewRecomendation(recomendation.recomendation, recomendation.type)
+            await  questions.addNewRecomendationQuestion(questionId, recomendationId)
+        }
+    }
+
+    switch (answerType){
+        case 'N':
+             await alertsM.addNumericAlert(questionId,alerts.maxAlertMessage,alerts.max)
+            break
+        case 'D':
+            await alertsM.addDateAlert(questionId,alerts.minAlertMessage,alerts.minDate)
+            break
+        case 'S':
+            await alertsM.addSliderAlert(questionId,alerts.minAlertMessage,alerts.min)
+            break
+        case
+    }
+
 }
 module.exports.addQuestion = [addQuestion];

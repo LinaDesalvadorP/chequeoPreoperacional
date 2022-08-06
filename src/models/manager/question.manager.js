@@ -75,7 +75,7 @@ const getQuestionType = (questionId) =>{
 }
 exports.getQuestionType = getQuestionType;
 
-const saveQuestionSolved = (questionId, answerId) =>{
+const saveQuestionAnswer = (questionId, answerId) =>{
     return new Promise(function (resolve, reject) {
         mysql.query("INSERT INTO question_answer VALUES (?,?)", [questionId, answerId],function (err, result) {
             if (err)  return reject(err);
@@ -83,7 +83,7 @@ const saveQuestionSolved = (questionId, answerId) =>{
         });
     })
 }
-exports.saveQuestionSolved = saveQuestionSolved;
+exports.saveQuestionAnswer = saveQuestionAnswer;
 
 const getUnsolvedQuestions= (quizId) =>{
     let questions = []
@@ -164,3 +164,25 @@ const fillRecommendation = async (questions) =>{
     }
 }
 exports.fillRecommendation = fillRecommendation;
+
+
+const addNewQuestion = async (section, type, statement, frecuency) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("INSERT INTO question (id_section, type, statement, frecuency) VALUES (?,?,?,?)", [section, type, statement, frecuency] ,function (err, result) {
+            if (err)  return reject(err);
+            resolve(result.insertId)
+        });
+    })
+}
+exports.addNewQuestion = addNewQuestion;
+
+
+const addNewRecomendationQuestion = async (questionId, recomendationId) =>{
+    return new Promise(function (resolve, reject) {
+        mysql.query("INSERT INTO recomendation_question (questionId, recomendationId) VALUES (?,?)", [questionId, recomendationId] ,function (err, result) {
+            if (err)  return reject(err);
+            resolve(result.insertId)
+        });
+    })
+}
+exports.addNewRecomendationQuestion = addNewRecomendationQuestion;
